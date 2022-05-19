@@ -62,7 +62,8 @@ bool operator!=(const Integer &a, const Integer &b)
 }
 bool operator<(const Integer &a, const Integer &b)
 {
-    int n = Length(a), m = Length(b);
+    int n = Length(a);
+    int m = Length(b);
     if (n != m)
         return n < m;
     while (n--)
@@ -91,7 +92,8 @@ Integer &Integer::operator=(const Integer &a)
 
 Integer &Integer::operator++()
 {
-    int i, n = digits.size();
+    int i;
+    int n = digits.size();
     for (i = 0; i < n && digits[i] == 9; i++)
         digits[i] = 0;
     if (i == n)
@@ -131,7 +133,8 @@ Integer Integer::operator--(int temp)
 Integer &operator+=(Integer &a, const Integer &b)
 {
     int t = 0, s, i;
-    int n = Length(a), m = Length(b);
+    int n = Length(a);
+    int m = Length(b);
     if (m > n)
         a.digits.append(m - n, 0);
     n = Length(a);
@@ -160,7 +163,8 @@ Integer &operator-=(Integer &a, const Integer &b)
 {
     if (a < b)
         throw("UNDERFLOW");
-    int n = Length(a), m = Length(b);
+    int n = Length(a);
+    int m = Length(b);
     int i, t = 0, s;
     for (i = 0; i < n; i++)
     {
