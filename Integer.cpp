@@ -1,148 +1,392 @@
 #include "Integer.h"
-#include <iostream>
-#include <algorithm>
 
 using namespace cosc326;
-using namespace std;
 
-cosc326::Integer::Integer(usigned int integer) {
-    setInteger(integer);
-}
-
-cosc326::Integer::Integer(string integer) {
-    for (int i = 0; i < (int)integer.size() && integer[i] >= '0' && integer[i] <= '9'; i++) {
-        this->integer += integer[i];
-    }
-
-    if (this->integer.size() == 0) {
-        this->integer = "0";
-    } else {
-        this->integer = integer.substr(getTrimIndex(integer));
+Integer::Integer(string &s)
+{
+    digits = "";
+    int n = s.size();
+    for (int i = n - 1; i >= 0; i--)
+    {
+        if (!isdigit(s[i]))
+            throw("ERROR");
+        digits.push_back(s[i] - '0');
     }
 }
-
-void cosc326::Integer::setInteger(unsigned int integer) {
-    if (integer == 0) {
-        this->integer = "0";
-    }
-
-    while (integer) {
-        this->integer = (char)((integer % 10) + '0') + this->integer;
-        integer /= 10;
+Integer::Integer(unsigned long long nr)
+{
+    do
+    {
+        digits.push_back(nr % 10);
+        nr /= 10;
+    } while (nr);
+}
+Integer::Integer(const char *s)
+{
+    digits = "";
+    for (int i = strlen(s) - 1; i >= 0; i--)
+    {
+        if (!isdigit(s[i]))
+            throw("ERROR");
+        digits.push_back(s[i] - '0');
     }
 }
-
-void cosc326::Integer::setInteger(string integer) {
-    this->integer = integer;
+Integer::Integer(Integer &a)
+{
+    digits = a.digits;
 }
 
-unsigned int cosc326::Integer::getIntValue() const {
-    unsigned int ret = 0;
-    unsigned int biggest = 0xFFFFFFFF;
+bool Null(const Integer &a)
+{
+    if (a.digits.size() == 1 && a.digits[0] == 0)
+        return true;
+    return false;
+}
+int Length(const Integer &a)
+{
+    return a.digits.size();
+}
+int Integer::operator[](const int index) const
+{
+    if (digits.size() <= index || index < 0)
+        throw("ERROR");
+    return digits[index];
+}
+bool operator==(const Integer &a, const Integer &b)
+{
+    return a.digits == b.digits;
+}
+bool operator!=(const Integer &a, const Integer &b)
+{
+    return !(a == b);
+}
+bool operator<(const Integer &a, const Integer &b)
+{
+    int n = Length(a), m = Length(b);
+    if (n != m)
+        return n < m;
+    while (n--)
+        if (a.digits[n] != b.digits[n])
+            return a.digits[n] < b.digits[n];
+    return false;
+}
+bool operator>(const Integer &a, const Integer &b)
+{
+    return b < a;
+}
+bool operator>=(const Integer &a, const Integer &b)
+{
+    return !(a < b);
+}
+bool operator<=(const Integer &a, const Integer &b)
+{
+    return !(a > b);
+}
 
-    for (int i = 0; i < (int) integer.size(); i++) {
-        int unit = integer[i] - '0';
-        if (ret > (biggest - unit) / 10.0) {
-            return 0;
+Integer &Integer::operator=(const Integer &a)
+{
+    digits = a.digits;
+    return *this;
+}
+
+Integer &Integer::operator++()
+{
+    int i, n = digits.size();
+    for (i = 0; i < n && digits[i] == 9; i++)
+        digits[i] = 0;
+    if (i == n)
+        digits.push_back(1);
+    else
+        digits[i]++;
+    return *this;
+}
+Integer Integer::operator++(int temp)
+{
+    Integer aux;
+    aux = *this;
+    ++(*this);
+    return aux;
+}
+
+Integer &Integer::operator--()
+{
+    if (digits[0] == 0 && digits.size() == 1)
+        throw("UNDERFLOW");
+    int i, n = digits.size();
+    for (i = 0; digits[i] == 0 && i < n; i++)
+        digits[i] = 9;
+    digits[i]--;
+    if (n > 1 && digits[n - 1] == 0)
+        digits.pop_back();
+    return *this;
+}
+Integer Integer::operator--(int temp)
+{
+    Integer aux;
+    aux = *this;
+    --(*this);
+    return aux;
+}
+
+Integer &operator+=(Integer &a, const Integer &b)
+{
+    int t = 0, s, i;
+    int n = Length(a), m = Length(b);
+    if (m > n)
+        a.digits.append(m - n, 0);
+    n = Length(a);
+    for (i = 0; i < n; i++)
+    {
+        if (i < m)
+            s = (a.digits[i] + b.digits[i]) + t;
+        else
+            s = a.digits[i] + t;
+        t = s / 10;
+        a.digits[i] = (s % 10);
+    }
+    if (t)
+        a.digits.push_back(t);
+    return a;
+}
+Integer operator+(const Integer &a, const Integer &b)
+{
+    Integer temp;
+    temp = a;
+    temp += b;
+    return temp;
+}
+
+Integer &operator-=(Integer &a, const Integer &b)
+{
+    if (a < b)
+        throw("UNDERFLOW");
+    int n = Length(a), m = Length(b);
+    int i, t = 0, s;
+    for (i = 0; i < n; i++)
+    {
+        if (i < m)
+            s = a.digits[i] - b.digits[i] + t;
+        else
+            s = a.digits[i] + t;
+        if (s < 0)
+            s += 10,
+                t = -1;
+        else
+            t = 0;
+        a.digits[i] = s;
+    }
+    while (n > 1 && a.digits[n - 1] == 0)
+        a.digits.pop_back(),
+            n--;
+    return a;
+}
+Integer operator-(const Integer &a, const Integer &b)
+{
+    Integer temp;
+    temp = a;
+    temp -= b;
+    return temp;
+}
+
+Integer &operator*=(Integer &a, const Integer &b)
+{
+    if (Null(a) || Null(b))
+    {
+        a = Integer();
+        return a;
+    }
+    int n = a.digits.size(), m = b.digits.size();
+    vector<int> v(n + m, 0);
+    for (int i = 0; i < n; i++)
+        for (int j = 0; j < m; j++)
+        {
+            v[i + j] += (a.digits[i]) * (b.digits[j]);
         }
-        ret = ret * 10 + unit;
+    n += m;
+    a.digits.resize(v.size());
+    for (int s, i = 0, t = 0; i < n; i++)
+    {
+        s = t + v[i];
+        v[i] = s % 10;
+        t = s / 10;
+        a.digits[i] = v[i];
     }
-    return ret;
+    for (int i = n - 1; i >= 1 && !v[i]; i--)
+        a.digits.pop_back();
+    return a;
+}
+Integer operator*(const Integer &a, const Integer &b)
+{
+    Integer temp;
+    temp = a;
+    temp *= b;
+    return temp;
 }
 
-string cosc326::Integer::toString() const {
-    return integer;
-}
-
-Integer cosc326::Integer::addInteger(const Integer& integer_to_add) const {
-    int x = max((int)(integer_to_add.toString().size() - toString().size()), 0);
-    int y = max((int)(toString().size() - integer_to_add.toString().size()), 0);
-
-    string a = string(x, '0') + toString();
-    string b = string(y, '0') + integer_to_add.toString();
-
-    reverse(a.begin(), a.end());
-    reverse(b.beign(), b.end());
-
-    string result;
-    int carry_value = 0;
-
-    for (int i = 0; i < (int) a.size(); i++) {
-        int sum = (a[i] - '0') + (b[i] - '0') + carry;
-        result += ((char)(sum % 10 + '0'));
-        carry = sum / 10;
+Integer &operator/=(Integer &a, const Integer &b)
+{
+    if (Null(b))
+        throw("Arithmetic Error: Division By 0");
+    if (a < b)
+    {
+        a = Integer();
+        return a;
     }
-
-    if (carry != 0) {
-        result += ((char)(carry + '0'));
+    if (a == b)
+    {
+        a = Integer(1);
+        return a;
     }
-
-    reverse(result.begin(), result.end());
-
-    return Integer(result.substr(getTrimIndex(result)));
+    int i, lgcat = 0, cc;
+    int n = Length(a), m = Length(b);
+    vector<int> cat(n, 0);
+    Integer t;
+    for (i = n - 1; t * 10 + a.digits[i] < b; i--)
+    {
+        t *= 10;
+        t += a.digits[i];
+    }
+    for (; i >= 0; i--)
+    {
+        t = t * 10 + a.digits[i];
+        for (cc = 9; cc * b > t; cc--)
+            ;
+        t -= cc * b;
+        cat[lgcat++] = cc;
+    }
+    a.digits.resize(cat.size());
+    for (i = 0; i < lgcat; i++)
+        a.digits[i] = cat[lgcat - i - 1];
+    a.digits.resize(lgcat);
+    return a;
+}
+Integer operator/(const Integer &a, const Integer &b)
+{
+    Integer temp;
+    temp = a;
+    temp /= b;
+    return temp;
 }
 
-Integer cosc326::Integer::addInteger(const string& integer_to_add) const {
-    return addInteger(Integer(integer_to_add));
+Integer &operator%=(Integer &a, const Integer &b)
+{
+    if (Null(b))
+        throw("Arithmetic Error: Division By 0");
+    if (a < b)
+    {
+        a = Integer();
+        return a;
+    }
+    if (a == b)
+    {
+        a = Integer(1);
+        return a;
+    }
+    int i, lgcat = 0, cc;
+    int n = Length(a), m = Length(b);
+    vector<int> cat(n, 0);
+    Integer t;
+    for (i = n - 1; t * 10 + a.digits[i] < b; i--)
+    {
+        t *= 10;
+        t += a.digits[i];
+    }
+    for (; i >= 0; i--)
+    {
+        t = t * 10 + a.digits[i];
+        for (cc = 9; cc * b > t; cc--)
+            ;
+        t -= cc * b;
+        cat[lgcat++] = cc;
+    }
+    a = t;
+    return a;
+}
+Integer operator%(const Integer &a, Integer &b)
+{
+    Integer temp;
+    temp = a;
+    temp %= b;
+    return temp;
 }
 
-Integer cosc326::Integer::multiplyInteger(const Integer& integer_to_multiply) const {
-    string a = integer_to_multiply.toString();
-    string b = toString();
+Integer &operator^=(Integer &a, const Integer &b)
+{
+    Integer Exponent, Base(a);
+    Exponent = b;
+    a = 1;
+    while (!Null(Exponent))
+    {
+        if (Exponent[0] & 1)
+            a *= Base;
+        Base *= Base;
+        divide_by_2(Exponent);
+    }
+    return a;
+}
+Integer operator^(Integer &a, Integer &b)
+{
+    Integer temp(a);
+    temp ^= b;
+    return temp;
+}
 
-    reverse(a.begin(), a.end());
-    reverse(b.begin(), b.end());
+void divide_by_2(Integer &a)
+{
+    int add = 0;
+    for (int i = a.digits.size() - 1; i >= 0; i--)
+    {
+        int digit = (a.digits[i] >> 1) + add;
+        add = ((a.digits[i] & 1) * 5);
+        a.digits[i] = digit;
+    }
+    while (a.digits.size() > 1 && !a.digits.back())
+        a.digits.pop_back();
+}
 
-    Integer ret("0");
-
-    for (int i = 0; i < (int) a.size(); i++) {
-        int carry = 0;
-        string temp = string(i, '0');
-
-        for (int j = 0; j < (int) b.size(); j++) {
-            int multiply (a[i] - '0') * (b[j] - '0') + carry;
-            temp += ((char)(multiply % 10 + '0'));
-            carry = multiply / 10;
+Integer sqrt(Integer &a)
+{
+    Integer left(1), right(a), v(1), mid, prod;
+    divide_by_2(right);
+    while (left <= right)
+    {
+        mid += left;
+        mid += right;
+        divide_by_2(mid);
+        prod = (mid * mid);
+        if (prod <= a)
+        {
+            v = mid;
+            ++mid;
+            left = mid;
         }
-
-        if (carry != 0) {
-            temp += (carry + '0');
+        else
+        {
+            --mid;
+            right = mid;
         }
-
-        reverse(temp.begin(), temp.end());
-        ret = ret.addInteger(temp.substr(getTrimIndex(temp)));
+        mid = Integer();
     }
-
-    return ret;
-
+    return v;
 }
 
-Integer cosc326::Integer::multiplyInteger(const string& integer_to_multiply) const {
-    return multiplyInteger(Integer(integer_to_multiply));
-}
-
-size_t cosc326::Integer::getTrimIndex(cost string& integer) {
-    size_t index = 0;
-    while (integer[index] == '0' && index < integer.size() - 1) {
-        index++;
+istream &operator>>(istream &in, Integer &a)
+{
+    string s;
+    in >> s;
+    int n = s.size();
+    for (int i = n - 1; i >= 0; i--)
+    {
+        if (!isdigit(s[i]))
+            throw("INVALID NUMBER");
+        a.digits[n - i - 1] = s[i];
     }
-    return index;
-}
-
-bool cosc326::Integer::operator==(const Integer& integer) const {
-    return this->integer == integer.toString;
-}
-
-Integer cosc326::Integer::operator+(const Integer& integer) const {
-    return addInteger(integer);
-}
-
-Integer cosc326::Integer::operator*(const Integer& integer) const {
-    return multiplyInteger(integer);
-}
-
-ostream& operator<<(ostream& in, Integer& integer) {
-    in << integer.toString();
-
     return in;
+}
+
+ostream &operator<<(ostream &out, const Integer &a)
+{
+    for (int i = a.digits.size() - 1; i >= 0; i--)
+        cout << (short)a.digits[i];
+    return cout;
 }
