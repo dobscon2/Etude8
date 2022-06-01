@@ -1,396 +1,587 @@
+#include <string>
+#include <sstream>
+#include <map>
+#include <bits/stdc++.h>
 #include "Integer.h"
 
-using namespace cosc326;
+using namespace std;
 
-Integer::Integer(string &s)
+namespace cosc326
 {
-    digits = "";
-    int n = s.size();
-    for (int i = n - 1; i >= 0; i--)
-    {
-        if (!isdigit(s[i]))
-            throw("ERROR");
-        digits.push_back(s[i] - '0');
-    }
-}
-Integer::Integer(unsigned long long nr)
-{
-    do
-    {
-        digits.push_back(nr % 10);
-        nr /= 10;
-    } while (nr);
-}
-Integer::Integer(const char *s)
-{
-    digits = "";
-    for (int i = strlen(s) - 1; i >= 0; i--)
-    {
-        if (!isdigit(s[i]))
-            throw("ERROR");
-        digits.push_back(s[i] - '0');
-    }
-}
-Integer::Integer(Integer &a)
-{
-    digits = a.digits;
+
+// Constructors
+
+Integer::Integer(){
+	this->value.emplace_back(0);
+	positive = true;	
 }
 
-bool Null(const Integer &a)
-{
-    if (a.digits.size() == 1 && a.digits[0] == 0)
-        return true;
-    return false;
-}
-int Length(const Integer &a)
-{
-    return a.digits.size();
-}
-int Integer::operator[](const int index) const
-{
-    if (digits.size() <= index || index < 0)
-        throw("ERROR");
-    return digits[index];
-}
-bool operator==(const Integer &a, const Integer &b)
-{
-    return a.digits == b.digits;
-}
-bool operator!=(const Integer &a, const Integer &b)
-{
-    return !(a == b);
-}
-bool operator<(const Integer &a, const Integer &b)
-{
-    int n = Length(a);
-    int m = Length(b);
-    if (n != m)
-        return n < m;
-    while (n--)
-        if (a.digits[n] != b.digits[n])
-            return a.digits[n] < b.digits[n];
-    return false;
-}
-bool operator>(const Integer &a, const Integer &b)
-{
-    return b < a;
-}
-bool operator>=(const Integer &a, const Integer &b)
-{
-    return !(a < b);
-}
-bool operator<=(const Integer &a, const Integer &b)
-{
-    return !(a > b);
+Integer::Integer(string stringValue){
+	readString(stringValue);
 }
 
-Integer &Integer::operator=(const Integer &a)
-{
-    digits = a.digits;
-    return *this;
+Integer::Integer(int integerValue){
+	string stringValue = to_string(integerValue);
+	readString(stringValue);
 }
 
-Integer &Integer::operator++()
-{
-    int i;
-    int n = digits.size();
-    for (i = 0; i < n && digits[i] == 9; i++)
-        digits[i] = 0;
-    if (i == n)
-        digits.push_back(1);
-    else
-        digits[i]++;
-    return *this;
-}
-Integer Integer::operator++(int temp)
-{
-    Integer aux;
-    aux = *this;
-    ++(*this);
-    return aux;
+Integer::Integer(long long LLValue){
+	string stringValue = to_string(LLValue);
+	readString(stringValue);
 }
 
-Integer &Integer::operator--()
-{
-    if (digits[0] == 0 && digits.size() == 1)
-        throw("UNDERFLOW");
-    int i, n = digits.size();
-    for (i = 0; digits[i] == 0 && i < n; i++)
-        digits[i] = 9;
-    digits[i]--;
-    if (n > 1 && digits[n - 1] == 0)
-        digits.pop_back();
-    return *this;
-}
-Integer Integer::operator--(int temp)
-{
-    Integer aux;
-    aux = *this;
-    --(*this);
-    return aux;
+// Relational Operators
+
+bool Integer::operator == (Integer bigNumber){
+	bigNumber.removeLeadingZeros();
+	if(this->positive != bigNumber.positive) return false;
+	if(value.size() != bigNumber.length()) return false;
+	for(int i = 0; i<bigNumber.length(); i++){
+		if(value[i] != bigNumber.value[i]) return false;
+	}
+	return true;
 }
 
-Integer &operator+=(Integer &a, const Integer &b)
-{
-    int t = 0, s, i;
-    int n = Length(a);
-    int m = Length(b);
-    if (m > n)
-        a.digits.append(m - n, 0);
-    n = Length(a);
-    for (i = 0; i < n; i++)
-    {
-        if (i < m)
-            s = (a.digits[i] + b.digits[i]) + t;
-        else
-            s = a.digits[i] + t;
-        t = s / 10;
-        a.digits[i] = (s % 10);
-    }
-    if (t)
-        a.digits.push_back(t);
-    return a;
-}
-Integer operator+(const Integer &a, const Integer &b)
-{
-    Integer temp;
-    temp = a;
-    temp += b;
-    return temp;
+bool Integer::operator != (Integer bigNumber){
+	bigNumber.removeLeadingZeros();
+	if(this->positive != bigNumber.positive) return true;
+	if(value.size() != bigNumber.length()) return true;
+	for(int i = 0; i<bigNumber.length(); i++){
+		if(value[i] != bigNumber.value[i]) return true;
+	}
+	return false;
 }
 
-Integer &operator-=(Integer &a, const Integer &b)
-{
-    if (a < b)
-        throw("UNDERFLOW");
-    int n = Length(a);
-    int m = Length(b);
-    int i, t = 0, s;
-    for (i = 0; i < n; i++)
-    {
-        if (i < m)
-            s = a.digits[i] - b.digits[i] + t;
-        else
-            s = a.digits[i] + t;
-        if (s < 0)
-            s += 10,
-                t = -1;
-        else
-            t = 0;
-        a.digits[i] = s;
-    }
-    while (n > 1 && a.digits[n - 1] == 0)
-        a.digits.pop_back(),
-            n--;
-    return a;
-}
-Integer operator-(const Integer &a, const Integer &b)
-{
-    Integer temp;
-    temp = a;
-    temp -= b;
-    return temp;
+bool Integer::operator < (Integer bigNumber){
+	bigNumber.removeLeadingZeros();
+	if(!this->positive && !bigNumber.positive){
+		if(this->value.size() != bigNumber.value.size()){
+			if(this->value.size() > bigNumber.value.size()) return true;
+			return false;
+		}
+		for(int i = this->length()-1; i>=0; i--){
+			if(this->value[i] == bigNumber.value[i]) continue;
+			if(this->value[i] > bigNumber.value[i]) return true;
+		}
+		return false;
+	}
+	if(this->positive != bigNumber.positive){
+		if(!this->positive) return true;
+		return false;
+	}
+	if(this->value.size() != bigNumber.value.size()){
+		return this->value.size() < bigNumber.value.size();
+	}
+	for(int i = this->value.size()-1; i>=0; i--){
+		if(this->value[i] == bigNumber.value[i]) continue;
+		if(this->value[i] < bigNumber.value[i]) return true;
+		return false;
+	}
+	return false;
 }
 
-Integer &operator*=(Integer &a, const Integer &b)
-{
-    if (Null(a) || Null(b))
-    {
-        a = Integer();
-        return a;
-    }
-    int n = a.digits.size(), m = b.digits.size();
-    vector<int> v(n + m, 0);
-    for (int i = 0; i < n; i++)
-        for (int j = 0; j < m; j++)
-        {
-            v[i + j] += (a.digits[i]) * (b.digits[j]);
-        }
-    n += m;
-    a.digits.resize(v.size());
-    for (int s, i = 0, t = 0; i < n; i++)
-    {
-        s = t + v[i];
-        v[i] = s % 10;
-        t = s / 10;
-        a.digits[i] = v[i];
-    }
-    for (int i = n - 1; i >= 1 && !v[i]; i--)
-        a.digits.pop_back();
-    return a;
-}
-Integer operator*(const Integer &a, const Integer &b)
-{
-    Integer temp;
-    temp = a;
-    temp *= b;
-    return temp;
+bool Integer::operator <= (Integer bigNumber){
+	bigNumber.removeLeadingZeros();
+	if(!this->positive && !bigNumber.positive){
+		if(this->value.size() != bigNumber.value.size()){
+			if(this->value.size() > bigNumber.value.size()) return true;
+			return false;
+		}
+		for(int i = this->length()-1; i>=0; i--){
+			if(this->value[i] > bigNumber.value[i]) return true;
+			if(this->value[i] == bigNumber.value[i]) continue;
+			if(this->value[i] < bigNumber.value[i]) return false;
+		}
+		return true;
+	}
+	if(this->positive != bigNumber.positive){
+		if(!this->positive && bigNumber.positive) return true;
+		return false;
+	}
+	if(this->value.size() != bigNumber.value.size()){
+		if(this->length() < bigNumber.value.size()) return true;
+		return false;
+	}
+	for(int i = this->value.size()-1; i>=0; i--){
+		if(this->value[i] < bigNumber.value[i]) return true;
+		if(this->value[i] == bigNumber.value[i]) continue;
+		return false;
+	}
+	return true;
 }
 
-Integer &operator/=(Integer &a, const Integer &b)
-{
-    if (Null(b))
-        throw("Arithmetic Error: Division By 0");
-    if (a < b)
-    {
-        a = Integer();
-        return a;
-    }
-    if (a == b)
-    {
-        a = Integer(1);
-        return a;
-    }
-    int i, lgcat = 0, cc;
-    int n = Length(a), m = Length(b);
-    vector<int> cat(n, 0);
-    Integer t;
-    for (i = n - 1; t * 10 + a.digits[i] < b; i--)
-    {
-        t *= 10;
-        t += a.digits[i];
-    }
-    for (; i >= 0; i--)
-    {
-        t = t * 10 + a.digits[i];
-        for (cc = 9; cc * b > t; cc--)
-            ;
-        t -= cc * b;
-        cat[lgcat++] = cc;
-    }
-    a.digits.resize(cat.size());
-    for (i = 0; i < lgcat; i++)
-        a.digits[i] = cat[lgcat - i - 1];
-    a.digits.resize(lgcat);
-    return a;
-}
-Integer operator/(const Integer &a, const Integer &b)
-{
-    Integer temp;
-    temp = a;
-    temp /= b;
-    return temp;
+bool Integer::operator > (Integer bigNumber){
+	return !(*this <= bigNumber);
 }
 
-Integer &operator%=(Integer &a, const Integer &b)
-{
-    if (Null(b))
-        throw("Arithmetic Error: Division By 0");
-    if (a < b)
-    {
-        a = Integer();
-        return a;
-    }
-    if (a == b)
-    {
-        a = Integer(1);
-        return a;
-    }
-    int i, lgcat = 0, cc;
-    int n = Length(a), m = Length(b);
-    vector<int> cat(n, 0);
-    Integer t;
-    for (i = n - 1; t * 10 + a.digits[i] < b; i--)
-    {
-        t *= 10;
-        t += a.digits[i];
-    }
-    for (; i >= 0; i--)
-    {
-        t = t * 10 + a.digits[i];
-        for (cc = 9; cc * b > t; cc--)
-            ;
-        t -= cc * b;
-        cat[lgcat++] = cc;
-    }
-    a = t;
-    return a;
-}
-Integer operator%(const Integer &a, Integer &b)
-{
-    Integer temp;
-    temp = a;
-    temp %= b;
-    return temp;
+bool Integer::operator >= (Integer bigNumber){
+	return !(*this < bigNumber);
 }
 
-Integer &operator^=(Integer &a, const Integer &b)
-{
-    Integer Exponent, Base(a);
-    Exponent = b;
-    a = 1;
-    while (!Null(Exponent))
-    {
-        if (Exponent[0] & 1)
-            a *= Base;
-        Base *= Base;
-        divide_by_2(Exponent);
-    }
-    return a;
-}
-Integer operator^(Integer &a, Integer &b)
-{
-    Integer temp(a);
-    temp ^= b;
-    return temp;
+// Arithmetic Operators
+
+Integer Integer::operator + (Integer bigNumber){
+	return addition(*this,bigNumber);
 }
 
-void divide_by_2(Integer &a)
-{
-    int add = 0;
-    for (int i = a.digits.size() - 1; i >= 0; i--)
-    {
-        int digit = (a.digits[i] >> 1) + add;
-        add = ((a.digits[i] & 1) * 5);
-        a.digits[i] = digit;
-    }
-    while (a.digits.size() > 1 && !a.digits.back())
-        a.digits.pop_back();
+Integer Integer::operator - (Integer bigNumber){
+	bigNumber.positive = !bigNumber.positive;
+	return addition(*this, bigNumber);
 }
 
-Integer sqrt(Integer &a)
-{
-    Integer left(1), right(a), v(1), mid, prod;
-    divide_by_2(right);
-    while (left <= right)
-    {
-        mid += left;
-        mid += right;
-        divide_by_2(mid);
-        prod = (mid * mid);
-        if (prod <= a)
-        {
-            v = mid;
-            ++mid;
-            left = mid;
-        }
-        else
-        {
-            --mid;
-            right = mid;
-        }
-        mid = Integer();
-    }
-    return v;
+Integer Integer::operator * (Integer bigNumber){
+	return multiplication(*this,bigNumber);
 }
 
-istream &operator>>(istream &in, Integer &a)
-{
-    string s;
-    in >> s;
-    int n = s.size();
-    for (int i = n - 1; i >= 0; i--)
-    {
-        if (!isdigit(s[i]))
-            throw("INVALID NUMBER");
-        a.digits[n - i - 1] = s[i];
-    }
-    return in;
+Integer Integer::operator / (Integer bigNumber){
+	return division(*this, bigNumber);
 }
 
-ostream &operator<<(ostream &out, const Integer &a)
-{
-    for (int i = a.digits.size() - 1; i >= 0; i--)
-        cout << (short)a.digits[i];
-    return cout;
+Integer Integer::operator % (Integer bigNumber){
+	return mod(*this,bigNumber);
+}
+
+// Increment and Decrement Operators
+
+Integer Integer::operator ++ (int){
+	Integer one("1");
+	Integer prevCopy = *this;
+	*this = addition(*this,one);
+	return prevCopy;
+}
+
+Integer & Integer::operator ++ (){
+	Integer one("1");
+	*this = addition(*this,one);
+	return *this;
+}
+
+Integer & Integer::operator -- (){
+	Integer one("1");
+	one.positive = false;
+	*this = addition(*this,one);
+	return *this;
+}
+
+Integer Integer::operator --(int){
+	Integer one("1");
+	one.positive = false;
+	Integer prevCopy = *this;
+	*this = addition(*this,one);
+	return prevCopy;
+}
+
+// Assigment Operators
+
+void Integer::operator = (Integer bigNumber){
+	this->value = bigNumber.value;
+	this->positive = bigNumber.positive;
+}
+Integer Integer::operator += (Integer bigNumber){
+	*this = addition(*this,bigNumber);
+	return *this;
+}
+
+Integer Integer::operator -= (Integer bigNumber){
+	bigNumber.positive = !bigNumber.positive;
+	*this = addition(*this,bigNumber);
+	return *this;
+}
+
+Integer Integer::operator *= (Integer bigNumber){
+	*this =  multiplication(*this,bigNumber);
+	return *this;
+}
+
+Integer Integer::operator /= (Integer bigNumber){
+	*this = *this / bigNumber;
+	return *this;
+}
+
+Integer Integer::operator %= (Integer bigNumber){
+	*this = mod(*this, bigNumber);
+	return *this;
+}
+
+// Stream Operators
+
+ostream & operator << (ostream &out, Integer Integer){
+	if(!Integer.isPositive()) cout<<"-";
+	for(int i = 0; i < Integer.length(); i++){
+		out<<Integer[i];
+	}
+	return out;
+}
+
+istream & operator >> (istream &in,Integer &Integer){
+	string str;
+	in>>str;
+	Integer.readString(str);
+	return in;
+}
+
+// Indexed operators
+
+unsigned int & Integer::operator[](int index){
+	return this->value[this->length()-1-index];
+}
+
+// Functions and methods
+
+int Integer::length(){
+	return this->value.size();
+}
+
+bool Integer::isPositive(){
+	return this->positive;
+}
+
+bool Integer::absGreater(Integer &bigNumber){
+	if(this->value.size() != bigNumber.value.size())
+		return this->value.size() > bigNumber.value.size();
+	for(int i = this->value.size()-1; i>=0; i--){
+		if(this->value[i] == bigNumber.value[i]) continue;
+		if(this->value[i] > bigNumber.value[i]) return true;
+		return false;
+	}
+	return false;
+}
+
+bool Integer::absLesser(Integer &bigNumber){
+	if(this->value.size() != bigNumber.value.size())
+		return this->value.size() < bigNumber.value.size();
+	for(int i = this->value.size(); i>=0; i--){
+		if(this->value[i] == bigNumber.value[i]) continue;
+		if(this->value[i] < bigNumber.value[i]) return true;
+		return false;
+	}
+	return false;
+}
+
+void Integer::readString(string str){
+	if(str.empty())return;
+	value.clear();
+	positive = str[0] != '-';
+	for(int i = str.length()-1; i>-1+!positive; i--){
+		this->value.emplace_back(str[i]-'0');
+	}
+	removeLeadingZeros();
+	makePositiveIfZero();
+}
+
+string Integer::toString(){
+	string ret = "";
+	for(int i = this->length()-1; i>=0; i--){
+		ret += this->value[i]+'0';
+	}
+	if(!isPositive()) ret = "-" + ret;
+	return ret;
+}
+
+Integer Integer::ZERO() const{
+	return Integer();
+}
+
+Integer Integer::ONE() const{
+	return Integer("1");
+}
+
+void Integer::addLeadingZeros(int zeros){
+	value.resize(value.size()+zeros);
+}
+
+void Integer::removeLeadingZeros(){
+	while(value.back() == 0 && value.size() > 1)
+		value.pop_back();
+}
+
+void Integer::makePositiveIfZero(){
+	if(this->value.size()> 1) return;
+	if(!this->getValueAt(0)) positive = true;
+}
+
+void Integer::addToTheBeginning(int val, int cant){
+	if(cant<=0) return;
+	value.resize(value.size()+cant,val);
+	for(int i = value.size()-1; i>=cant; i--){
+		swap(value[i],value[i-cant]);
+	}
+}
+
+unsigned int & Integer::getValueAt(int index){
+	return value[index];
+}
+
+Integer Integer::addition(Integer big1, Integer big2){
+	if(big1.isPositive() != big2.isPositive()){
+		if(big1.value.size() != big2.value.size()){
+			if(big1.value.size() > big2.value.size()){
+				return substraction(big1,big2);
+			}else{
+				return substraction(big2,big1);
+			}
+		}else{
+			for(int i = big1.value.size()-1; i>=0; i--){
+				if(big1.value[i] == big2.value[i]) continue;
+				if(big1.value[i] > big2.value[i]) return substraction(big1,big2);
+				return substraction(big2,big1);
+			}
+			return Integer();
+		}
+	}
+
+	if(big1.value.size() < big2.value.size()) swap(big1,big2);
+	int i = 0, carry = 0, sum;
+	big1.addLeadingZeros(1);
+	for(; i < big1.length(); i++){
+		sum = big1.value[i] + big2.value[i] + carry;
+		carry = sum/10;
+		big1.value[i] = sum%10;
+		if(i+1 == big2.value.size() && ++i) break;
+	}
+	while(carry)
+		sum = big1.value[i] + carry,
+		big1.value[i++] = sum%10, carry = sum/10;
+
+	big1.removeLeadingZeros();
+	big1.makePositiveIfZero();
+	return big1;
+}
+
+Integer Integer::substraction(Integer big1, Integer &big2){
+	big1.addLeadingZeros(1);
+	for(int i = 0; i<big1.value.size(); i++){
+		if(big1.value[i] < big2.value[i]){
+			for(int j = i+1; j<big1.value.size(); j++){
+				if(big1.value[j]){
+					--big1.value[j];
+					break;
+				}else{
+					big1.value[j] = 9;
+				}
+			}
+			int val1 = big1.value[i]+10, val2 = big2.value[i];
+			big1.value[i] = val1-val2;
+			if(i+1==big2.value.size()) break;
+		}else{
+			big1.value[i] = big1.value[i] - big2.value[i];
+			if(i+1==big2.value.size()) break;
+		}
+	}
+	big1.removeLeadingZeros();
+	big1.makePositiveIfZero();
+	return big1;
+}
+
+Integer Integer::multiplication(Integer big1, Integer big2){
+	return karatsubaMultiplication(big1, big2);
+}
+
+Integer Integer::division(Integer &dividend, Integer &divisor){
+	return longDivision(dividend, divisor);
+}
+
+Integer Integer::longMultiplication(Integer &big1, Integer &big2){
+	Integer result;
+	result.value.resize(big1.value.size()+big2.value.size()+1);
+	int i,j,carry = 0, product;
+	for(i = 0; i<big1.value.size(); i++){
+		carry = 0;
+		for(j = 0; j<big2.value.size(); j++){
+			product = (big2.value[j]*big1.value[i]) + carry + result.value[i+j];
+			carry = product/10;
+			result.value[i+j] = product%10;
+		}
+		while(carry)
+			product = result.value[i+j] + carry,
+			result.value[i+j] = product%10,
+			carry = product/10, ++j;
+	}
+	result.removeLeadingZeros();
+	result.positive = big1.positive == big2.positive;
+	makePositiveIfZero();
+	return result;
+}
+
+Integer Integer::karatsubaMultiplication(Integer &big1, Integer &big2){
+	if(big1.value.size() * big2.value.size() < 6000){
+		return longMultiplication(big1,big2);
+	}
+	int splitSize = (max(big1.value.size(), big2.value.size())+1)>>1;
+	Integer bigNum1H, bigNum1L, bigNum2H, bigNum2L;
+	if(((int)big1.value.size()) - splitSize <= 0){
+		bigNum1L.value = big1.value;
+	}else{
+		bigNum1L.value.assign(big1.value.begin(), big1.value.begin()+splitSize);
+		bigNum1H.value.assign(big1.value.begin()+splitSize,big1.value.end());
+	}
+	if(((int)big2.value.size()) - splitSize <= 0){
+		bigNum2L.value = big2.value;
+	}else{
+		bigNum2L.value.assign(big2.value.begin(), big2.value.begin()+splitSize);
+		bigNum2H.value.assign(big2.value.begin()+splitSize,big2.value.end());
+	}
+	Integer sumA = bigNum1H+bigNum1L, sumB = bigNum2H+bigNum2L;
+	Integer A = karatsubaMultiplication(bigNum1H, bigNum2H);
+	Integer D = karatsubaMultiplication(bigNum1L, bigNum2L);
+	Integer E = karatsubaMultiplication(sumA,sumB) - A - D;
+	A.addToTheBeginning(0,splitSize<<1);
+	E.addToTheBeginning(0,splitSize);
+	Integer result =  A + E + D;
+	result.positive = big1.positive == big2.positive;
+	result.removeLeadingZeros();
+	return result;
+}
+
+pair<Integer,Integer> Integer::resultAndRemainder(Integer divisor){
+	if(divisor == Integer()){
+		cout<<"Mod by zero.\n";
+		exit(1);
+	};
+	Integer dividend = *this;
+	if(divisor == Integer()) return make_pair(Integer(), Integer("-1"));
+	if(divisor.absGreater(dividend)) return make_pair(Integer(),*this);
+	bool dividendSign = dividend.positive, divisorSign = divisor.positive;
+	dividend.positive = divisor.positive = true;
+	Integer result, subNumber, bigRemainder;
+	int dividendLength = dividend.value.size();
+	result.value.resize(dividendLength,0);
+	while(true){
+		dividend.removeLeadingZeros();
+		if(dividend.value.size() >= divisor.value.size()){
+			int pos = dividend.value.size() - divisor.value.size();
+			subNumber.value.assign(dividend.value.begin() + pos, dividend.value.end());
+			if(subNumber < divisor){
+				if(dividend.value.size() > divisor.value.size()){
+					subNumber.value.insert(subNumber.value.begin(), dividend.value[dividend.value.size()-(divisor.value.size()+1)]);
+				}else{
+					bigRemainder = subNumber;
+					break;
+				}
+			}
+		}else{
+			bigRemainder = dividend;
+			break;
+		}
+		int quotient = 0, splitSize = subNumber.value.size();
+		int indexPosition = (dividendLength-(subNumber.value.size()+(dividendLength-dividend.value.size())));
+		while(divisor <= subNumber){
+			subNumber-=divisor;
+			++quotient;
+		}
+		bigRemainder = subNumber;
+		result.value[indexPosition] = quotient; 
+		int leadingNumbersToRemove = splitSize-bigRemainder.value.size();
+		while(leadingNumbersToRemove--) dividend.value.pop_back();
+		for(int i = 0; i<bigRemainder.value.size(); i++){
+			dividend.value[dividend.value.size()-i-1] = bigRemainder.value[bigRemainder.value.size()-1-i];
+		}
+	}
+	result.removeLeadingZeros();
+	result.positive = dividendSign == divisorSign;
+	return make_pair(result,bigRemainder);
+}
+
+Integer Integer::longDivision(Integer dividend, Integer &divisor){
+	if(divisor == Integer()){
+		cout<<"Division by zero.\n";
+		exit(1);
+	};
+	if(divisor.absGreater(dividend)) return Integer();
+	bool dividendSign = dividend.positive, divisorSign = divisor.positive;
+	dividend.positive = divisor.positive = true;
+	Integer result, subNumber, bigRemainder;
+	int dividendLength = dividend.value.size();
+	result.value.resize(dividendLength,0);
+	while(true){
+		dividend.removeLeadingZeros();
+		if(dividend.value.size() >= divisor.value.size()){
+			int pos = dividend.value.size() - divisor.value.size();
+			subNumber.value.assign(dividend.value.begin() + pos, dividend.value.end());
+			if(subNumber < divisor){
+				if(dividend.value.size() > divisor.value.size()){
+					subNumber.value.insert(subNumber.value.begin(), dividend.value[dividend.value.size()-(divisor.value.size()+1)]);
+				}else{
+					bigRemainder = subNumber;
+					break;
+				}
+			}
+		}else{
+			bigRemainder = dividend;
+			break;
+		}
+		int quotient = 0, splitSize = subNumber.value.size();
+		int indexPosition = (dividendLength-(subNumber.value.size()+(dividendLength-dividend.value.size())));
+		while(divisor <= subNumber){
+			subNumber-=divisor;
+			++quotient;
+		}
+		bigRemainder = subNumber;
+		result.value[indexPosition] = quotient; 
+		int leadingNumbersToRemove = splitSize-bigRemainder.value.size();
+		while(leadingNumbersToRemove--) dividend.value.pop_back();
+		for(int i = 0; i<bigRemainder.value.size(); i++){
+			dividend.value[dividend.value.size()-i-1] = bigRemainder.value[bigRemainder.value.size()-1-i];
+		}
+	}
+	result.removeLeadingZeros();
+	result.positive = dividendSign == divisorSign;
+	return result;
+}
+
+Integer Integer::gcd(Integer a, Integer b) {
+	if (b == a) {
+		return a;
+	} else {
+		return gcd(b, a%b);
+	}
+}
+
+Integer Integer::mod(Integer dividend, Integer &divisor){
+	if(divisor == Integer()){
+		cout<<"Module by zero.\n";
+		exit(1);
+	}
+	if(divisor.absGreater(dividend)) return Integer();
+	bool dividendSign = dividend.positive, divisorSign = divisor.positive;
+	dividend.positive = divisor.positive = true;
+	Integer result, subNumber, bigRemainder;
+	int dividendLength = dividend.value.size();
+	result.value.resize(dividendLength,0);
+	while(true){
+		dividend.removeLeadingZeros();
+		if(dividend.value.size() >= divisor.value.size()){
+			int pos = dividend.value.size() - divisor.value.size();
+			subNumber.value.assign(dividend.value.begin() + pos, dividend.value.end());
+			if(subNumber < divisor){
+				if(dividend.value.size() > divisor.value.size()){
+					subNumber.value.insert(subNumber.value.begin(), dividend.value[dividend.value.size()-(divisor.value.size()+1)]);
+				}else{
+					bigRemainder = subNumber;
+					break;
+				}
+			}
+		}else{
+			bigRemainder = dividend;
+			break;
+		}
+		int quotient = 0, splitSize = subNumber.value.size();
+		int indexPosition = (dividendLength-(subNumber.value.size()+(dividendLength-dividend.value.size())));
+		while(divisor <= subNumber){
+			subNumber-=divisor;
+			++quotient;
+		}
+		bigRemainder = subNumber;
+		result.value[indexPosition] = quotient; 
+		int leadingNumbersToRemove = splitSize-bigRemainder.value.size();
+		while(leadingNumbersToRemove--) dividend.value.pop_back();
+		for(int i = 0; i<bigRemainder.value.size(); i++){
+			dividend.value[dividend.value.size()-i-1] = bigRemainder.value[bigRemainder.value.size()-1-i];
+		}
+	}
+	result.removeLeadingZeros();
+	result.positive = dividendSign == divisorSign;
+	return bigRemainder;
+}
+
 }

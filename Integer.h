@@ -1,81 +1,71 @@
-#pragma once
+#ifndef COSC326_INTEGER_H_
+#define COSC326_INTEGER_H_
 
+#include <vector>
 #include <iostream>
+#include <map>
 #include <bits/stdc++.h>
-#include <string>
 
 using namespace std;
 
 namespace cosc326
 {
-
-    class Integer
-    {
-    public:
-        string digits;
-        // Constructors:
-        Integer(unsigned long long n = 0);
-        Integer(string &);
-        Integer(const char *);
-        Integer(Integer &);
-
-        // Helper Functions:
-        friend void divide_by_2(Integer &a);
-        friend bool Null(const Integer &);
-        friend int Length(const Integer &);
-        int operator[](const int) const;
-
-        /* * * * Operator Overloading * * * */
-
-        // Direct assignment
-        Integer &operator=(const Integer &);
-
-        // Post/Pre - Incrementation
-        Integer &operator++();
-        Integer operator++(int temp);
-        Integer &operator--();
-        Integer operator--(int temp);
-
-        // Addition and Subtraction
-        friend Integer &operator+=(Integer &, const Integer &);
-        friend Integer operator+(const Integer &, const Integer &);
-        friend Integer operator-(const Integer &, const Integer &);
-        friend Integer &operator-=(Integer &, const Integer &);
-
-        // Comparison operators
-        friend bool operator==(const Integer &, const Integer &);
-        friend bool operator!=(const Integer &, const Integer &);
-
-        friend bool operator>(const Integer &, const Integer &);
-        friend bool operator>=(const Integer &, const Integer &);
-        friend bool operator<(const Integer &, const Integer &);
-        friend bool operator<=(const Integer &, const Integer &);
-
-        // Multiplication and Division
-        friend Integer &operator*=(Integer &, const Integer &);
-        friend Integer operator*(const Integer &, const Integer &);
-        friend Integer &operator/=(Integer &, const Integer &);
-        friend Integer operator/(const Integer &, const Integer &);
-
-        // Modulo
-        friend Integer operator%(const Integer &, const Integer &);
-        friend Integer &operator%=(Integer &, const Integer &);
-
-        // Power Function
-        friend Integer &operator^=(Integer &, const Integer &);
-        friend Integer operator^(Integer &, const Integer &);
-
-        // Square Root Function
-        friend Integer sqrt(Integer &a);
-
-        // Read and Write
-        friend ostream &operator<<(ostream &, const Integer &);
-        friend istream &operator>>(istream &, Integer &);
-
-        // Others
-        friend Integer NthCatalan(int n);
-        friend Integer NthFibonacci(int n);
-        friend Integer Factorial(int n);
-    };
-
+class Integer{
+	public:
+		Integer();
+		Integer(string);
+		Integer(int);
+		Integer(long long);
+		Integer operator + (Integer);
+		Integer operator += (Integer);
+		Integer & operator ++();
+		Integer operator ++(int);
+		Integer operator - (Integer);
+		Integer operator -= (Integer);
+		Integer & operator --();
+		Integer operator --(int);
+		Integer operator * (Integer);
+		Integer operator *= (Integer);
+		Integer operator / (Integer);
+		Integer operator /= (Integer);
+		Integer operator % (Integer);
+		Integer operator %= (Integer);
+		Integer gcd(Integer, Integer);
+		unsigned int & operator[](int);
+		void operator = (Integer);
+		bool operator == (Integer);
+		bool operator != (Integer);
+		bool operator < (Integer);
+		bool operator <= (Integer);
+		bool operator > (Integer);
+		bool operator >= (Integer);
+		void print();
+		int length();
+		bool isPositive();
+		bool absGreater(Integer &);
+		bool absLesser(Integer &);
+		void readString(string);
+		string toString();
+		void addToTheBeginning(int val, int cant = 1);
+		pair<Integer,Integer> resultAndRemainder(Integer);
+		Integer ZERO() const;
+		Integer ONE() const;
+		vector<unsigned int> value;
+	private:
+		bool positive;
+		void addLeadingZeros(int);
+		void removeLeadingZeros();
+		void makePositiveIfZero();
+		unsigned int & getValueAt(int);
+		Integer addition(Integer ,Integer );
+		Integer substraction(Integer, Integer &);
+		Integer multiplication(Integer, Integer);
+		Integer longMultiplication(Integer &, Integer &);
+		Integer karatsubaMultiplication(Integer&, Integer&);
+		Integer division(Integer &, Integer &);
+		Integer longDivision(Integer, Integer &);
+		Integer mod(Integer, Integer&);
+};
 }
+
+#endif
