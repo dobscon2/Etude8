@@ -92,7 +92,7 @@ int main(void) {
     std::string default_print = default_value.toString();
     printf("%s\n", default_print.c_str());
 
-    Integer gcd_value = divide2.gcd(divide2, second);
+    Integer gcd_value = gcd_value.gcd(big, divide2);
     std::string gcd_string = gcd_value.toString();
 
     printf("%s\n", gcd_string.c_str());

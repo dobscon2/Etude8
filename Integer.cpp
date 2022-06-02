@@ -541,11 +541,13 @@ Integer Integer::longDivision(Integer dividend, Integer &divisor){
 }
 
 Integer Integer::gcd(Integer a, Integer b) {
-	if (b == a) {
-		return a;
-	} else {
-		return gcd(b, a%b);
+	Integer result = Integer();
+	for (Integer i = 1; i <= a && i <= b; i++) {
+		if (a % i == 0 && b % i == 0) {
+			result = i;
+		}
 	}
+	return result;
 }
 
 Integer Integer::mod(Integer dividend, Integer &divisor){
