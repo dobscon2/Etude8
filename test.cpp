@@ -5,13 +5,17 @@
 using namespace cosc326;
 using namespace std;
 
-int main() {
+int main(void) {
     Integer first = Integer(5);
     Integer second = Integer(10);
     Integer fifth = Integer(20);
+    Integer copy = Integer(fifth);
 
     std::string fifth_print = fifth.toString();
     printf("%s\n", fifth_print.c_str());
+
+    std::string copy_value = copy.toString();
+    printf("%s\n", copy_value.c_str());
 
     fifth = Integer();
     fifth_print = fifth.toString();
@@ -92,4 +96,5 @@ int main() {
     std::string gcd_string = gcd_value.toString();
 
     printf("%s\n", gcd_string.c_str());
+    return 0;
 }

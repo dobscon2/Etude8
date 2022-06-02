@@ -17,6 +17,7 @@ class Integer{
 		Integer(string);
 		Integer(int);
 		Integer(long long);
+		Integer(const Integer &);
 
 		// Destructor
 		~Integer();

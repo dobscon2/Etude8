@@ -12,7 +12,7 @@ namespace cosc326
 // Constructors
 
 Integer::Integer(){
-	this->value.__emplace_back(0);
+	this->value.emplace_back(0);
 	positive = true;	
 }
 
@@ -30,10 +30,15 @@ Integer::Integer(long long LLValue){
 	readString(stringValue);
 }
 
+Integer::Integer(const Integer &i) {
+	value = i.value;
+	this->positive = i.positive;
+}
+
 // Destructor
 
 Integer::~Integer(){
-	std::cout<<"\ndestructor execution";
+	
 }
 
 // Relational Operators
@@ -269,7 +274,7 @@ void Integer::readString(string str){
 	value.clear();
 	positive = str[0] != '-';
 	for(int i = str.length()-1; i>-1+!positive; i--){
-		this->value.__emplace_back(str[i]-'0');
+		this->value.emplace_back(str[i]-'0');
 	}
 	removeLeadingZeros();
 	makePositiveIfZero();
