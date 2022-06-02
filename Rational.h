@@ -5,6 +5,7 @@
 #include <iostream>
 #include <map>
 #include <bits/stdc++.h>
+#include "Integer.h"
 
 using namespace std;
 
@@ -14,31 +15,21 @@ class Rational{
 	public:
 		Rational();
 		Rational(string);
-		Rational(int);
-		Rational(long long);
-		Rational operator + (Rational);
-		Rational operator += (Rational);
-		Rational & operator ++();
-		Rational operator ++(int);
-		Rational operator - (Rational);
-		Rational operator -= (Rational);
-		Rational & operator --();
-		Rational operator --(int);
-		Rational operator * (Rational);
-		Rational operator *= (Rational);
-		Rational operator / (Rational);
-		Rational operator /= (Rational);
-		Rational operator % (Rational);
-		Rational operator %= (Rational);
-		unsigned int & operator[](int);
-		void operator = (Rational);
-		bool operator == (Rational);
-		bool operator != (Rational);
-		bool operator < (Rational);
-		bool operator <= (Rational);
-		bool operator > (Rational);
-		bool operator >= (Rational);
-};
+		Rational(Integer);
+		Rational(Integer, Integer);
+		Rational(Integer, Integer, Integer);
+		Rational(const Rational&);
+		Rational add(const Rational&);
+		Rational subtract(const Rational&);
+		Rational multiply(const Rational&);
+		Rational divide(const Rational&);
+		void toString();
+		void printDecimal();
+		void reduce();
+		Integer numerator;
+		Integer denominator;
+}
+
 }
 
 #endif
