@@ -32,7 +32,9 @@ Integer::Integer(long long LLValue){
 
 // Destructor
 
-Integer::~Integer(){}
+Integer::~Integer(){
+	std::cout<<"\ndestructor execution";
+}
 
 // Relational Operators
 

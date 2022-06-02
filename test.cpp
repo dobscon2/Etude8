@@ -8,6 +8,14 @@ using namespace std;
 int main() {
     Integer first = Integer(5);
     Integer second = Integer(10);
+    Integer fifth = Integer(20);
+
+    std::string fifth_print = fifth.toString();
+    printf("%s\n", fifth_print.c_str());
+
+    fifth = Integer();
+    fifth_print = fifth.toString();
+    printf("%s\n", fifth_print.c_str());
 
     Integer result = first + second;
 
