@@ -1,7 +1,7 @@
 #include <string>
 #include <sstream>
 #include <map>
-#include <bits/stdc++.h>
+//#include <bits/stdc++.h>
 #include "Integer.h"
 
 using namespace std;
@@ -29,6 +29,10 @@ Integer::Integer(long long LLValue){
 	string stringValue = to_string(LLValue);
 	readString(stringValue);
 }
+
+// Destructor
+
+Integer::~Integer(){}
 
 // Relational Operators
 

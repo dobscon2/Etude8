@@ -4,7 +4,7 @@
 #include <vector>
 #include <iostream>
 #include <map>
-#include <bits/stdc++.h>
+//#include <bits/stdc++.h>
 
 using namespace std;
 
@@ -12,10 +12,15 @@ namespace cosc326
 {
 class Integer{
 	public:
+		// Constructors
 		Integer();
 		Integer(string);
 		Integer(int);
 		Integer(long long);
+
+		// Destructor
+		~Integer();
+
 		Integer operator + (Integer);
 		Integer operator += (Integer);
 		Integer & operator ++();
