@@ -62,12 +62,69 @@ namespace cosc326 {
 	}
 
 	Integer operator+(const Integer& lhs, const Integer& rhs) {
-		return lhs;
+		Integer lhsTemp = lhs;
+		Integer rhsTemp = rhs;
+		if(lhsTemp.isPositive() != rhsTemp.isPositive()){
+			if(lhsTemp.value.size() != rhsTemp.value.size()){
+				if(lhsTemp.value.size() > rhsTemp.value.size()){
+					return (lhsTemp - rhsTemp);
+				}else{
+					return (rhsTemp - lhsTemp);
+				}
+			}else{
+				for(int i = lhsTemp.value.size()-1; i>=0; i--){
+					if(lhsTemp.value[i] == rhsTemp.value[i]) continue;
+					if(lhsTemp.value[i] > rhsTemp.value[i]) return (lhsTemp - rhsTemp);
+					return (rhsTemp - lhsTemp);
+				}
+				return Integer();
+			}
+		}
+
+		if(lhsTemp.value.size() < rhsTemp.value.size()) std::swap(lhsTemp,rhsTemp);
+		int i = 0, carry = 0, sum;
+		lhsTemp.addLeadingZeros(1);
+		for(; i < lhsTemp.length(); i++){
+			sum = lhsTemp.value[i] + rhsTemp.value[i] + carry;
+			carry = sum/10;
+			lhsTemp.value[i] = sum%10;
+			if(i+1 == rhsTemp.value.size() && ++i) break;
+		}
+		while(carry)
+			sum = lhsTemp.value[i] + carry,
+			lhsTemp.value[i++] = sum%10, carry = sum/10;
+
+		lhsTemp.removeLeadingZeros();
+		lhsTemp.makePositiveIfZero();
+		return lhsTemp;
 		
 	}
 
 	Integer operator-(const Integer& lhs, const Integer& rhs) {
-		return lhs;
+		Integer lhsTemp = lhs;
+		Integer rhsTemp = rhs;
+		lhsTemp.addLeadingZeros(1);
+		for(int i = 0; i<lhsTemp.value.size(); i++){
+			if(lhsTemp.value[i] < rhsTemp.value[i]){
+				for(int j = i+1; j<lhsTemp.value.size(); j++){
+					if(lhsTemp.value[j]){
+						--lhsTemp.value[j];
+						break;
+					}else{
+						lhsTemp.value[j] = 9;
+					}
+				}
+				int val1 = lhsTemp.value[i]+10, val2 = rhsTemp.value[i];
+				lhsTemp.value[i] = val1-val2;
+				if(i+1==rhsTemp.value.size()) break;
+			}else{
+				lhsTemp.value[i] = lhsTemp.value[i] - rhsTemp.value[i];
+				if(i+1==rhsTemp.value.size()) break;
+			}
+		}
+		lhsTemp.removeLeadingZeros();
+		lhsTemp.makePositiveIfZero();
+		return lhsTemp;
 	}
 
 	Integer operator*(const Integer& lhs, const Integer& rhs) {

@@ -36,13 +36,14 @@ namespace cosc326 {
 		// lhs < rhs -- a 'friend' means operator isn't a member, but can access the private parts of the class.
 		// You may need to make some other functions friends, but do so sparingly.
 		friend bool operator<(const Integer& lhs, const Integer& rhs);
+		bool isPositive();
+		std::vector<unsigned int> value;
 		std::string toString();
 
 	private:
 		// Can add internal storage or methods here
         //std::vector<int> value;
 		bool mutable positive;
-		std::vector<unsigned int> value;
 		std::vector<unsigned int> length;
 		void addLeadingZeros(int);
 		void removeLeadingZeros();
@@ -56,7 +57,6 @@ namespace cosc326 {
 		Integer division(Integer &, Integer &);
 		Integer longDivision(Integer, Integer &);
 		Integer mod(Integer, Integer&);
-		bool isPositive();
 		int getLength();
 		void readString(std::string);
 	};
