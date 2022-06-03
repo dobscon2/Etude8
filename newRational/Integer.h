@@ -10,10 +10,13 @@
 
 
 namespace cosc326 {
-
 	class Integer {
 
 	public:
+		std::vector<int> number;
+		void initialize(std::string);
+		unsigned int size() const;
+		bool negative = false;
 
 		Integer();                             // Integer i;
 		Integer(const Integer& i);             // Integer j(i);
@@ -37,32 +40,9 @@ namespace cosc326 {
 		// lhs < rhs -- a 'friend' means operator isn't a member, but can access the private parts of the class.
 		// You may need to make some other functions friends, but do so sparingly.
 		friend bool operator<(const Integer& lhs, const Integer& rhs);
-		bool isPositive();
-		std::vector<unsigned int> value;
 		std::string toString();
-		void addLeadingZeros(int);
-		std::vector<unsigned int> length;
-		void makePositiveIfZero();
-		void removeLeadingZeros();
-		int getLength();
-		void readString(std::string);
-		bool mutable positive;
-		bool absLesser(Integer &);
-		bool absGreater(Integer &);
-		void trim();
 	private:
 		// Can add internal storage or methods here
-        //std::vector<int> value;	
-		unsigned int & getValueAt(int);
-		Integer addition(Integer ,Integer );
-		Integer substraction(Integer, Integer &);
-		Integer multiplication(Integer, Integer);
-		Integer longMultiplication(Integer &, Integer &);
-		Integer karatsubaMultiplication(Integer&, Integer&);
-		Integer division(Integer &, Integer &);
-		Integer longDivision(Integer, Integer &);
-		Integer mod(Integer, Integer&);
-		
 	};
 
 	// Binary operators
@@ -82,6 +62,8 @@ namespace cosc326 {
 	bool operator!=(const Integer& lhs, const Integer& rhs); // lhs != rhs
 
 	Integer gcd(const Integer& a, const Integer& b);  // i = gcd(a, b);
+
+	
 }
 
 #endif

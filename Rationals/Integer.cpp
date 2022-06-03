@@ -24,6 +24,36 @@ namespace cosc326 {
 		// Keep Empty
 	}
 
+	bool Integer::absLesser(Integer &bigNumber){
+		if(this->value.size() != bigNumber.value.size())
+			return this->value.size() < bigNumber.value.size();
+		for(int i = this->value.size(); i>=0; i--){
+			if(this->value[i] == bigNumber.value[i]) continue;
+			if(this->value[i] < bigNumber.value[i]) return true;
+			return false;
+		}
+		return false;
+	}
+
+	bool Integer::absGreater(Integer &bigNumber){
+		if(this->value.size() != bigNumber.value.size())
+			return this->value.size() > bigNumber.value.size();
+		for(int i = this->value.size()-1; i>=0; i--){
+			if(this->value[i] == bigNumber.value[i]) continue;
+			if(this->value[i] > bigNumber.value[i]) return true;
+			return false;
+		}
+		return false;
+	}
+
+	void Integer::trim() {
+    	while(!value.empty() && value.back() == 0)
+        	value.pop_back();
+   
+    	if(value.empty())
+        	this->makePositiveIfZero();
+		}
+
 
 	// Operations
 	Integer& Integer::operator=(const Integer& i) {
@@ -53,13 +83,45 @@ namespace cosc326 {
 	}
 
 	Integer& Integer::operator-=(const Integer& i) {
-		//Integer temp = *this;
-		if(this->positive == true){
-			this->positive = false;
-		} else {
-			this->positive = true;
+		Integer result;
+
+		Integer upper = *this;
+		Integer lower = i;
+
+		if (lower > upper) {
+			result.positive = false;
+			upper = i;
+			lower = *this;
 		}
-		*this = (*this + i);
+
+		std::reverse(upper.value.begin(), upper.value.end());
+		std::reverse(lower.value.begin(), lower.value.end());
+
+		for (int index = 0; index < lower.value.size(); index++) {
+			result.value.push_back(upper.value.at(index) - lower.value.at(index));
+		}
+
+		for (int index = lower.value.size(); index < upper.value.size(); index++) {
+			result.value.push_back(upper.value.at(index));
+		}
+
+		for (int i = 0; i < result.value.size(); i++) {
+			if (result.value.at(i) < 0) {
+				result.value.at(i + 1) -= 1;
+				result.value.at(i) += 10;
+			}
+		}
+
+		while (result.value.size() != 0 && result.value.at(result.value.size() - 1) == 0) {
+			result.value.pop_back();
+		}
+
+		if (result.value.size() == 0) {
+			result.value = {};
+		}
+
+		std::reverse( result.value.begin(), result.value.end() );
+		this->value = result.value;
 		return *this;
 	}
 
@@ -117,16 +179,8 @@ namespace cosc326 {
 	Integer operator-(const Integer& lhs, const Integer& rhs) {
 		Integer lhsTemp = lhs;
 		Integer rhsTemp = rhs;
-		
-		if (lhsTemp.positive && !rhsTemp.positive) {
-			lhsTemp.positive = true;
-			return (lhsTemp + rhsTemp);
-		} else if (!lhsTemp.positive && rhsTemp.positive) {
-			lhsTemp.positive = false;
-			return (lhsTemp + rhsTemp);
-		} else {
-			return lhs;
-		}
+		lhsTemp -= rhsTemp;
+		return lhsTemp;
 	}
 
 	Integer operator*(const Integer& lhs, const Integer& rhs) {
