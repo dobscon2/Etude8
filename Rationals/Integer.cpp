@@ -84,7 +84,7 @@ namespace cosc326 {
 		if(lhsTemp.value.size() < rhsTemp.value.size()) std::swap(lhsTemp,rhsTemp);
 		int i = 0, carry = 0, sum;
 		lhsTemp.addLeadingZeros(1);
-		for(; i < lhsTemp.length(); i++){
+		for(; i < lhsTemp.getLength(); i++){
 			sum = lhsTemp.value[i] + rhsTemp.value[i] + carry;
 			carry = sum/10;
 			lhsTemp.value[i] = sum%10;

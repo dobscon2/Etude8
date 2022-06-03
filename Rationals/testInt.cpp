@@ -49,5 +49,10 @@ int main(void) {
     std::string k_print = k.toString();
     printf("%s\n", k_print.c_str());
 
+    Integer plus = i + third;
+
+    std::string plus_print = plus.toString();
+    printf("%s\n", plus_print.c_str());
+
 
 }

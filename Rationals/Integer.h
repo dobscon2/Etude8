@@ -39,15 +39,15 @@ namespace cosc326 {
 		bool isPositive();
 		std::vector<unsigned int> value;
 		std::string toString();
-
+		void addLeadingZeros(int);
+		std::vector<unsigned int> length;
+		void makePositiveIfZero();
+		void removeLeadingZeros();
+		int getLength();
 	private:
 		// Can add internal storage or methods here
         //std::vector<int> value;
-		bool mutable positive;
-		std::vector<unsigned int> length;
-		void addLeadingZeros(int);
-		void removeLeadingZeros();
-		void makePositiveIfZero();
+		bool mutable positive;	
 		unsigned int & getValueAt(int);
 		Integer addition(Integer ,Integer );
 		Integer substraction(Integer, Integer &);
@@ -57,7 +57,7 @@ namespace cosc326 {
 		Integer division(Integer &, Integer &);
 		Integer longDivision(Integer, Integer &);
 		Integer mod(Integer, Integer&);
-		int getLength();
+		
 		void readString(std::string);
 	};
 
