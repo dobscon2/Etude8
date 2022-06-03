@@ -33,7 +33,12 @@ namespace cosc326 {
 	}
 
 	Integer Integer::operator-() const {
-		this->positive = !this->positive;
+		if(this->positive){
+			this->positive = false;
+		} else {
+			this->positive = false;
+		}
+		
 		return Integer(*this);
 	}
 

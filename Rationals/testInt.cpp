@@ -44,15 +44,28 @@ int main(void) {
 
 
     std::string j_print = j.toString();
-    printf("%s\n", j_print.c_str());
+    printf("j: %s\n", j_print.c_str());
 
     std::string k_print = k.toString();
-    printf("%s\n", k_print.c_str());
+    printf("k: %s\n", k_print.c_str());
 
     Integer plus = i + third;
 
+    Integer x("10");
+    Integer y("2");
+    Integer plus2 = x + y;
+
     std::string plus_print = plus.toString();
     printf("%s\n", plus_print.c_str());
+
+    std::string plus2_print = plus2.toString();
+    printf("plus2: %s\n", plus2_print.c_str());
+
+    std::string i_print = i.toString();
+    printf("i: %s\n", i_print.c_str());
+
+   // std::string plus2_print = plus2.toString();
+    //printf("plus2: %s\n", plus2_print.c_str());
 
 
 }
