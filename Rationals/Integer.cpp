@@ -208,23 +208,25 @@ namespace cosc326 {
 	}
 
 	bool operator> (const Integer& lhs, const Integer& rhs) {
-		return true;
+		return rhs < lhs;
 	}
 
 	bool operator<=(const Integer& lhs, const Integer& rhs) {
-		return true;
+		return !(lhs > rhs);
 	}
 
 	bool operator>=(const Integer& lhs, const Integer& rhs) {
-		return true;
+		return !(lhs < rhs);
 	}
 
 	bool operator==(const Integer& lhs, const Integer& rhs) {
-		return true;
+		Integer lhsTemp = lhs;
+		Integer rhsTemp = rhs;
+		return (lhsTemp.value == rhsTemp.value && lhsTemp.isPositive() == rhsTemp.isPositive());
 	}
 
 	bool operator!=(const Integer& lhs, const Integer& rhs) {
-		return true;
+		return !(lhs == rhs);
 	}
 
 
