@@ -96,7 +96,170 @@ int main(void) {
     plusEquals_print = x.toString();
     printf("x -= y: %s\n", plusEquals_print.c_str());
 
-    //cout << "first = " << first << '\n';
 
+    // Testing << >>
+    cout << "first = " << first << '\n';
+
+
+    // Testing ==
+    if(x == y) {
+        printf("Equals\n");
+    } else {
+        printf("Does not equal\n");
+    }
+    x = Integer("10");
+    y = Integer("10");
+    if(x == y) {
+        printf("Equals\n");
+    } else {
+        printf("Does not equal\n");
+    }
+
+    x = Integer("-10");
+    y = Integer("10");
+    if(x == y) {
+        printf("Equals\n");
+    } else {
+        printf("Does not equal\n");
+    }
+
+    x = Integer("-10");
+    y = Integer("-10");
+    if(x == y) {
+        printf("Equals\n");
+    } else {
+        printf("Does not equal\n");
+    }
+
+    //Testing !=
+
+    x = Integer("10");
+    y = Integer("10");
+    if(x != y) {
+        printf("Does not equal\n");
+    } else {
+        printf("Equals\n");
+    }
+
+    x = Integer("-10");
+    y = Integer("10");
+    if(x != y) {
+        printf("Does not equal\n");
+    } else {
+        printf("Equals\n");
+    }
+
+    x = Integer("-10");
+    y = Integer("-10");
+    if(x != y) {
+        printf("Does not equal\n\n");
+    } else {
+        printf("Equals\n\n");
+    }
+
+    // Testing < & >
+
+    x = Integer("10");
+    y = Integer("10");
+    if(x < y) {
+        printf("Less than\n");
+    } else {
+        printf("Not less than\n");
+    }
+
+
+    x = Integer("1");
+    y = Integer("10");
+    if(x < y) {
+        printf("Less than\n");
+    } else {
+        printf("Not less than\n");
+    }
+
+    x = Integer("10");
+    y = Integer("1");
+    if(x < y) {
+        printf("Less than\n\n");
+    } else {
+        printf("Not less than\n\n");
+    }
+
+    x = Integer("10");
+    y = Integer("10");
+    if(x > y) {
+        printf("Greater than\n");
+    } else {
+        printf("Not Greater than\n");
+    }
+
+
+    x = Integer("1");
+    y = Integer("10");
+    if(x > y) {
+        printf("Greater than\n");
+    } else {
+        printf("Not Greater than\n");
+    }
+
+    x = Integer("10");
+    y = Integer("1");
+    if(x > y) {
+        printf("Greater than\n\n");
+    } else {
+        printf("Not Greater than\n\n");
+    }
+
+    // Testing <= & >=
+    x = Integer("10");
+    y = Integer("10");
+    if(x <= y) {
+        printf("Less than or equals\n");
+    } else {
+        printf("Not less than or equals\n");
+    }
+
+
+    x = Integer("1");
+    y = Integer("10");
+    if(x <= y) {
+                printf("Less than or equals\n");
+
+    } else {
+        printf("Not less than or equals\n");
+    }
+
+    x = Integer("10");
+    y = Integer("1");
+    if(x <= y) {
+        printf("Less than or equals\n\n");
+
+    } else {
+        printf("Not less than or equals\n\n");
+    }
+
+    x = Integer("10");
+    y = Integer("10");
+    if(x >= y) {
+        printf("Greater than or equals\n");
+    } else {
+        printf("Not Greater than or equals\n");
+    }
+
+
+    x = Integer("1");
+    y = Integer("10");
+    if(x >= y) {
+        printf("Greater than or equals\n");
+    } else {
+        printf("Not Greater than or equals\n");
+    }
+
+    x = Integer("10");
+    y = Integer("1");
+    if(x >= y) {
+        printf("Greater than or equals\n\n");
+    } else {
+        printf("Not Greater than or equals\n\n");
+    }
 
 }
