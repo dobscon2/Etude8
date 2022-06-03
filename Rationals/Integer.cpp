@@ -33,13 +33,14 @@ namespace cosc326 {
 	}
 
 	Integer Integer::operator-() const {
-		if(this->positive){
-			this->positive = false;
+		Integer temp = *this;
+		if(temp.isPositive() == true){
+			temp.positive = false;
 		} else {
-			this->positive = false;
+			temp.positive = true;
 		}
 		
-		return Integer(*this);
+		return Integer(temp);
 	}
 
 	Integer Integer::operator+() const {
@@ -47,10 +48,18 @@ namespace cosc326 {
 	}
 
 	Integer& Integer::operator+=(const Integer& i) {
+		*this = (*this + i);
 		return *this;
 	}
 
 	Integer& Integer::operator-=(const Integer& i) {
+		//Integer temp = *this;
+		if(this->positive == true){
+			this->positive = false;
+		} else {
+			this->positive = true;
+		}
+		*this = (*this + i);
 		return *this;
 	}
 
@@ -108,12 +117,15 @@ namespace cosc326 {
 	Integer operator-(const Integer& lhs, const Integer& rhs) {
 		Integer lhsTemp = lhs;
 		Integer rhsTemp = rhs;
+		//if(lhsTemp.value < rhsTemp.value)
+        	//throw("UNDERFLOW");
+		/*
 		lhsTemp.addLeadingZeros(1);
 		for(int i = 0; i<lhsTemp.value.size(); i++){
 			if(lhsTemp.value[i] < rhsTemp.value[i]){
 				for(int j = i+1; j<lhsTemp.value.size(); j++){
 					if(lhsTemp.value[j]){
-						--lhsTemp.value[j];
+						lhsTemp.value[j] = lhsTemp.value[j] - 1;
 						break;
 					}else{
 						lhsTemp.value[j] = 9;
@@ -129,6 +141,25 @@ namespace cosc326 {
 		}
 		lhsTemp.removeLeadingZeros();
 		lhsTemp.makePositiveIfZero();
+		return lhsTemp;
+		*/
+		int n = lhsTemp.value.size(), m = rhsTemp.value.size();
+		int i, t = 0, s;
+		for (i = 0; i < n;i++){
+			if(i < m)
+				s = lhsTemp.value[i] - rhsTemp.value[i]+ t;
+			else
+				s = lhsTemp.value[i]+ t;
+			if(s < 0)
+				s += 10,
+				t = -1;
+			else
+				t = 0;
+			lhsTemp.value[i] = s;
+		}
+		while(n > 1 && lhsTemp.value[n - 1] == 0)
+			lhsTemp.value.pop_back(),
+			n--;
 		return lhsTemp;
 	}
 
@@ -146,15 +177,34 @@ namespace cosc326 {
 
 
 	std::ostream& operator<<(std::ostream& os, const Integer& i) {
+		Integer temp = i;
+		if(!temp.isPositive()) std::cout<<"-";
+		for(int y = 0; y < temp.getLength(); y++){
+			os<<temp.value[y];
+		}
 		return os;
 	}
 
 	std::istream& operator>>(std::istream& is, Integer& i) {
+		Integer temp = i;
+		std::string str;
+		is>>str;
+		temp.readString(str);
 		return is;
-	}
+		}
 
 	bool operator<(const Integer& lhs, const Integer& rhs) {
-		return true;
+		Integer tempLhs = lhs;
+		Integer tempRhs = rhs;
+
+		int n = tempLhs.getLength(), m = tempRhs.getLength();
+    	if(n != m)
+        	return n < m;
+   		while(n--)
+        	if(tempLhs.value[n] != tempRhs.value[n])
+            	return tempLhs.value[n] < tempRhs.value[n];
+    	return false;
+		//return true;
 	}
 
 	bool operator> (const Integer& lhs, const Integer& rhs) {

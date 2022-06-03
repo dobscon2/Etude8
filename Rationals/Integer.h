@@ -44,6 +44,7 @@ namespace cosc326 {
 		void makePositiveIfZero();
 		void removeLeadingZeros();
 		int getLength();
+		void readString(std::string);
 	private:
 		// Can add internal storage or methods here
         //std::vector<int> value;
@@ -58,7 +59,6 @@ namespace cosc326 {
 		Integer longDivision(Integer, Integer &);
 		Integer mod(Integer, Integer&);
 		
-		void readString(std::string);
 	};
 
 	// Binary operators
