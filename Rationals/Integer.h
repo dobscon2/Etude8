@@ -45,10 +45,10 @@ namespace cosc326 {
 		void removeLeadingZeros();
 		int getLength();
 		void readString(std::string);
+		bool mutable positive;
 	private:
 		// Can add internal storage or methods here
-        //std::vector<int> value;
-		bool mutable positive;	
+        //std::vector<int> value;	
 		unsigned int & getValueAt(int);
 		Integer addition(Integer ,Integer );
 		Integer substraction(Integer, Integer &);

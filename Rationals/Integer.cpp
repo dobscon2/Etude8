@@ -117,50 +117,16 @@ namespace cosc326 {
 	Integer operator-(const Integer& lhs, const Integer& rhs) {
 		Integer lhsTemp = lhs;
 		Integer rhsTemp = rhs;
-		//if(lhsTemp.value < rhsTemp.value)
-        	//throw("UNDERFLOW");
-		/*
-		lhsTemp.addLeadingZeros(1);
-		for(int i = 0; i<lhsTemp.value.size(); i++){
-			if(lhsTemp.value[i] < rhsTemp.value[i]){
-				for(int j = i+1; j<lhsTemp.value.size(); j++){
-					if(lhsTemp.value[j]){
-						lhsTemp.value[j] = lhsTemp.value[j] - 1;
-						break;
-					}else{
-						lhsTemp.value[j] = 9;
-					}
-				}
-				int val1 = lhsTemp.value[i]+10, val2 = rhsTemp.value[i];
-				lhsTemp.value[i] = val1-val2;
-				if(i+1==rhsTemp.value.size()) break;
-			}else{
-				lhsTemp.value[i] = lhsTemp.value[i] - rhsTemp.value[i];
-				if(i+1==rhsTemp.value.size()) break;
-			}
+		
+		if (lhsTemp.positive && !rhsTemp.positive) {
+			lhsTemp.positive = true;
+			return (lhsTemp + rhsTemp);
+		} else if (!lhsTemp.positive && rhsTemp.positive) {
+			lhsTemp.positive = false;
+			return (lhsTemp + rhsTemp);
+		} else {
+			return lhs;
 		}
-		lhsTemp.removeLeadingZeros();
-		lhsTemp.makePositiveIfZero();
-		return lhsTemp;
-		*/
-		int n = lhsTemp.value.size(), m = rhsTemp.value.size();
-		int i, t = 0, s;
-		for (i = 0; i < n;i++){
-			if(i < m)
-				s = lhsTemp.value[i] - rhsTemp.value[i]+ t;
-			else
-				s = lhsTemp.value[i]+ t;
-			if(s < 0)
-				s += 10,
-				t = -1;
-			else
-				t = 0;
-			lhsTemp.value[i] = s;
-		}
-		while(n > 1 && lhsTemp.value[n - 1] == 0)
-			lhsTemp.value.pop_back(),
-			n--;
-		return lhsTemp;
 	}
 
 	Integer operator*(const Integer& lhs, const Integer& rhs) {
