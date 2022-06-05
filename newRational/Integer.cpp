@@ -2,241 +2,422 @@
 
 namespace cosc326 {
 
-	Integer::Integer() {
-		number = {};
-	}
+    Integer::Integer() = default;
 
-	Integer::Integer(const Integer& i) {
-		number = i.number;
-		negative = i.negative;
-	}
+    Integer::~Integer() = default;
 
-	Integer::Integer(const std::string& s) {
-		initialize(s);
-	}
+    Integer::Integer(const std::string &digits) {
+        value = parseValue(digits);
+    }
 
+    Integer::Integer(const Integer &b) {
+        value = b.toString();
+    }
 
-	Integer::~Integer() {
-	
-	}
+    std::string Integer::toString() const {
+        return value;
+    }
 
-	unsigned int Integer::size() const {
-		return number.size();
-	}
+    void Integer::setValue(std::string val) {
+        value = parseValue(std::move(val));
+    }
 
-	void Integer::initialize(std::string source) {
-		number.resize(source.size());
-		for (unsigned int i = 0; i < source.size(); i++) {
-			number.at(i) = source.at(i) - '0';
-		}
+    std::string Integer::repr() const {
+        return value;
+    }
 
-		if (source == "0") {
-			number = {};
-		}
-		return;
-	}
+    Integer operator/(const Integer &lhs, const Integer &rhs) {
+        assert(rhs != ZERO);
+        if (lhs.isPositive() && rhs.isPositive()) {
+            return Integer::findQuotientAndRemainder(lhs, rhs)[0];
+        } else if (lhs.isPositive() && !rhs.isPositive()) {
+            return -Integer::findQuotientAndRemainder(lhs, rhs.absValue())[0];
+        } else if (!lhs.isPositive() && rhs.isPositive()) {
+            return -Integer::findQuotientAndRemainder(lhs.absValue(), rhs)[0];
+        }
+        return Integer::findQuotientAndRemainder(lhs.absValue(), rhs.absValue())[0];
+    }
 
-	std::string Integer::toString() {
-		std::string result;
-		for (int i : this->number) {
-			result += std::to_string(i);
-		}
-		return result;
-	}
+    Integer *Integer::findQuotientAndRemainder(const Integer &lhs, const Integer &rhs) {
+        assert((rhs != ZERO));
+        Integer quotient = Integer("0");
+        Integer remainder = Integer("0");
+        auto *result = new Integer[2];
+        if ((ZERO < lhs) && (lhs < rhs)) {
+            remainder = Integer(rhs);
+        }
+        if ((lhs != ZERO)) {
+            if (lhs == rhs) {
+                quotient = Integer("1");
+            } else {
+                std::string dvd = lhs.toString();
+                std::string dvs = rhs.toString();
+                remainder = Integer("" + dvd);
+                int baseCount;
+                int magDiff;
+                Integer dvsAdj;
+                while (remainder >= rhs) {
+                    baseCount = 0;
+                    magDiff = std::max(int(remainder.toString().size() - dvs.size() - 1), 0);
+                    dvsAdj = Integer(dvs + (std::string(magDiff, '0')));
+                    while (remainder > ZERO) {
+                        if ((remainder - dvsAdj) >= ZERO) {
+                            remainder -= dvsAdj;
+                            baseCount++;
+                        } else {
+                            break;
+                        }
+                    }
+                    quotient += Integer(std::to_string(baseCount) + std::string(magDiff, '0'));
+                }
+            }
+        }
+        result[0] = quotient;
+        result[1] = remainder;
+        return result;
+    }
 
-	Integer& Integer::operator=(const Integer& i) {
-		number = i.number;
-		return *this;
-	}
+    Integer operator*(const Integer &lhs, const Integer &rhs) {
+        if (lhs.isPositive() && rhs.isPositive()) {
+            return Integer::mulPositiveIntegers(lhs, rhs);
+        } else if (lhs.isPositive() && !rhs.isPositive()) {
+            return -Integer::mulPositiveIntegers(lhs, rhs.absValue());
+        } else if (!lhs.isPositive() && rhs.isPositive()) {
+            return -Integer::mulPositiveIntegers(lhs.absValue(), rhs);
+        }
+        return Integer::mulPositiveIntegers(lhs.absValue(), rhs.absValue());
+    }
 
-	Integer Integer::operator-() const {
-		return Integer(*this);
-	}
+    Integer Integer::mulPositiveIntegers(const Integer &lhs, const Integer &rhs) {
+        assert(lhs.isPositive() && lhs.isPositive());
 
-	Integer Integer::operator+() const {
-		return Integer(*this);
-	}
+        std::string num1 = lhs.toString();
+        std::string num2 = rhs.toString();
+        int len1 = num1.size();
+        int len2 = num2.size();
+        if (len1 == 0 || len2 == 0)
+            return Integer("0");
+        std::vector<int> result(len1 + len2, 0);
+        int i_n1 = 0;
+        int i_n2 = 0;
+        for (int i = len1 - 1; i >= 0; i--) {
+            int carry = 0;
+            int n1 = num1[i] - '0';
+            i_n2 = 0;
+            for (int j = len2 - 1; j >= 0; j--) {
+                int n2 = num2[j] - '0';
+                int sum = n1 * n2 + result[i_n1 + i_n2] + carry;
+                carry = sum / 10;
+                result[i_n1 + i_n2] = sum % 10;
+                i_n2++;
+            }
+            if (carry > 0)
+                result[i_n1 + i_n2] += carry;
+            i_n1++;
+        }
+        int i = result.size() - 1;
+        while (i >= 0 && result[i] == 0)
+            i--;
+        if (i == -1)
+            return Integer("0");
+        std::string s = "";
+        while (i >= 0)
+            s += std::to_string(result[i--]);
+        return Integer(s);
+    }
 
-	Integer& Integer::operator+=(const Integer& i) {
-		Integer top = i;
-		int min = this->size();
+    Integer operator-(const Integer &lhs, const Integer &rhs) {
+        if (!lhs.isPositive() && !rhs.isPositive()) {
+            return -(lhs.absValue() - rhs.absValue());
+        } else if (!lhs.isPositive() && rhs.isPositive()) {
+            return -(lhs.absValue() + rhs.absValue());
+        } else if (lhs.isPositive() && !rhs.isPositive()) {
+            return lhs + rhs.absValue();
+        } else {
+            if (lhs >= rhs) {
+                return Integer::diff(lhs, rhs);
+            } else {
+                return -Integer::diff(lhs, rhs);
+            }
+        }
 
-		if (top.size() > min) {
-			min = top.size();
-		}
+    }
 
-		int max = this->size();
-		if (top.size() > max) {
-			max = top.size();
-		}
+    Integer Integer::diff(const Integer &lhs, const Integer &rhs) {
+        assert(lhs.isPositive() && rhs.isPositive());
+        std::string str1 = lhs.absValue().toString();
+        std::string str2 = rhs.absValue().toString();
+        if (Integer(str1) < Integer(str2)) {
+            swap(str1, str2);
+        }
+        std::string str = "";
+        int n1 = str1.length(), n2 = str2.length();
+        int diff = n1 - n2;
+        int carry = 0;
+        for (int i = n2 - 1; i >= 0; i--) {
+            int sub = ((str1[i + diff] - '0') - (str2[i] - '0')
+                       - carry);
+            if (sub < 0) {
+                sub = sub + 10;
+                carry = 1;
+            } else
+                carry = 0;
+            str.push_back(sub + '0');
+        }
+        for (int i = n1 - n2 - 1; i >= 0; i--) {
+            if (str1[i] == '0' && carry) {
+                str.push_back('9');
+                continue;
+            }
+            int sub = ((str1[i] - '0') - carry);
+            if (i > 0 || sub > 0)
+                str.push_back(sub + '0');
+            carry = 0;
+        }
+        reverse(str.begin(), str.end());
+        return Integer(str);
+    }
 
-		std::reverse(this->number.begin(), this->number.end());
-		std::reverse(top.number.begin(), top.number.end());
+    Integer operator+(const Integer &lhs, const Integer &rhs) {
+        if (lhs.isPositive() && rhs.isPositive()) {
+            return cosc326::Integer::addPositiveIntegers(lhs, rhs);
+        } else if (lhs.isPositive() && !rhs.isPositive()) {
+            return -(rhs.absValue() - lhs.absValue());
+        } else if (!lhs.isPositive() && rhs.isPositive()) {
+            return -(lhs.absValue() - rhs.absValue());
+        }
+        return -(lhs.absValue() + rhs.absValue());
+    }
 
-		if (top.size() < max) {
-			while (top.size() < max) {
-				top.number.push_back(0);
-			}
-		} else if (this->size() < max) {
-			while (this->size() < max) {
-				this->number.push_back(0);
-			}
-		}
+    Integer Integer::addPositiveIntegers(const Integer &lhs, const Integer &rhs) {
+        std::string str1 = lhs.toString();
+        std::string str2 = rhs.toString();
+        if (str1.length() > str2.length())
+            swap(str1, str2);
+        std::string result = "";
+        int n1 = str1.length(), n2 = str2.length();
+        reverse(str1.begin(), str1.end());
+        reverse(str2.begin(), str2.end());
+        int carry = 0;
+        for (int i = 0; i < n1; i++) {
+            int sum = ((str1[i] - '0') + (str2[i] - '0') + carry);
+            result.push_back(sum % 10 + '0');
+            carry = sum / 10;
+        }
+        for (int i = n1; i < n2; i++) {
+            int sum = ((str2[i] - '0') + carry);
+            result.push_back(sum % 10 + '0');
+            carry = sum / 10;
+        }
+        if (carry)
+            result.push_back(carry + '0');
+        reverse(result.begin(), result.end());
+        return Integer(result);
+    }
 
-		Integer sum;
-		sum.number = std::vector<int>(max+1, 0);
+    Integer operator%(const Integer &lhs, const Integer &rhs) {
+        if (lhs == ZERO || (lhs.absValue() == rhs.absValue())) {
+            return Integer("0");
+        }
+        Integer positiveRemainder = Integer::findQuotientAndRemainder(lhs.absValue(), rhs.absValue())[1];
+        if (lhs < ZERO || rhs < ZERO) {
+            return (rhs.absValue() - positiveRemainder).absValue();
+        } else {
+            return positiveRemainder;
+        }
 
-		for (int index = 0; index < max; index++) {
-			sum.number.at(index) = top.number.at(index) + this->number.at(index);
-		}
+    }
 
-		for (int index = 0; index < max; index++) {
-			if (sum.number.at(index) > 9) {
-				sum.number.at(index) -= 10;
-				sum.number.at(index + 1) += 1;
-			}
-		}
+    Integer gcd(const Integer &a, const Integer &b) {
+        Integer a1 = a.absValue();
+        Integer b1 = b.absValue();
+        if (a1 == ZERO) {
+            return b1;
+        } else if (b1 == ZERO) {
+            return a1;
+        }
+        Integer remainder = a1 % b1;
+        return gcd(b1, remainder);
+    }
 
-		for (int index = max; index >= 0; index--) {
-			if (sum.number.at(index) != 0) {
-				break;
-			} else {
-				sum.number.pop_back();
-			}
-		}
+    Integer &Integer::operator=(const Integer &i) {
+        this->setValue(i.toString());
+        return *this;
+    }
 
-		std::reverse(sum.number.begin(), sum.number.end());
-		this->number = sum.number;
-		return *this;
-	}
+    Integer &Integer::operator/=(const Integer &i) {
+        *this = *this / i;
+        return *this;
+    }
 
-	Integer& Integer::operator-=(const Integer& i) {
-		Integer result;
+    Integer &Integer::operator%=(const Integer &i) {
+        *this = *this % i;
+        return *this;
+    }
 
-    	// sets the upper bar to the larger number
-    	Integer upper = *this;
-    	Integer lower = i;
+    Integer &Integer::operator*=(const Integer &i) {
+        *this = (*this) * i;
+        return *this;
+    }
 
-    	if (lower > upper) {
-        	result.negative = true;
-        	upper = i;
-        	lower = *this;
-    	}
+    Integer &Integer::operator-=(const Integer &i) {
+        *this = *this - i;
+        return *this;
+    }
 
-    	// reverse the upper and lower bars, so we can iterate left to right
-    	std::reverse( upper.number.begin(), upper.number.end() );
-    	std::reverse( lower.number.begin(), lower.number.end() );
+    Integer &Integer::operator+=(const Integer &i) {
+        *this = *this + i;
+        return *this;
+    }
 
-    	// goes through each digit, subtraction (may get negative digits here, like {4, 3, -2, -5, 4})
-    	for (int index = 0; index < lower.size(); index++) {
-        	result.number.push_back(upper.number.at(index) - lower.number.at(index));
-    	}
+    bool operator<(const Integer &lhs, const Integer &rhs) {
+        if (lhs == rhs) {
+            return false;
+        }
+        if (lhs.isPositive() && rhs.isPositive()) {
+            return Integer::comparePositiveIntegers(lhs, rhs);
+        } else if (lhs.isPositive() && !rhs.isPositive()) {
+            return false;
+        } else if (!lhs.isPositive() && rhs.isPositive()) {
+            return true;
+        }
+        return !Integer::comparePositiveIntegers(lhs.absValue(), rhs.absValue());
+    }
 
-    	// adds any extra digits
-    	for (int index = lower.size(); index < upper.size(); index++) {
-        	result.number.push_back(upper.number.at(index));
-    	}
+    bool operator>(const Integer &lhs, const Integer &rhs) {
+        return !(lhs <= rhs);
+    }
 
-    	// deals with negatives by subtracting from the digit over
-    	for (int index = 0; index < result.size(); index++) {
-        	if (result.number.at(index) < 0) {
-            	result.number.at(index+1) -= 1;
-            	result.number.at(index) += 10;
-        	}
-    	}
+    bool operator<=(const Integer &lhs, const Integer &rhs) {
+        return (lhs < rhs) || (lhs == rhs);
+    }
 
-    	// removes any extra zeros
-    	while (result.size() != 0 && result.number.at(result.size()-1) == 0) {
-        	result.number.pop_back();
-    	}
+    bool operator>=(const Integer &lhs, const Integer &rhs) {
+        return (lhs > rhs) || (lhs == rhs);
+    }
+    bool Integer::comparePositiveIntegers(const Integer &lhs, const Integer &rhs) {
+        assert(lhs.isPositive() && rhs.isPositive());
+        std::string str1 = lhs.toString();
+        std::string str2 = rhs.toString();
+        int n1 = str1.length(), n2 = str2.length();
+        if (n1 < n2)
+            return true;
+        if (n2 < n1)
+            return false;
+        for (int i = 0; i < n1; i++) {
+            if (str1[i] < str2[i])
+                return true;
+            else if (str1[i] > str2[i])
+                return false;
+        }
+        return false;
+    }
 
-    	// if the result is zero, ensure the number is empty
-    	if (result.size() == 0) {
-        	result.number = {};
-    	}
+    bool operator==(const Integer &lhs, const Integer &rhs) {
+        return lhs.toString() == rhs.toString();
+    }
 
-    	// reverse back to normal
-    	std::reverse( result.number.begin(), result.number.end() );
+    bool operator!=(const Integer &lhs, const Integer &rhs) {
+        return !(lhs == rhs);
+    }
 
-    	this->number = result.number;  // set this number to the result number
-    	return *this;
-	}
+    Integer Integer::operator+() const {
+        return Integer(value);
+    }
 
-	Integer& Integer::operator*=(const Integer& i) {
-		return *this;
-	}
+    Integer Integer::operator-() const {
+        if (isPositive()) {
+            return Integer("-" + value);
+        }
+        return Integer(absValue().toString());
+    }
 
-	Integer& Integer::operator/=(const Integer& i) {
-		return *this;
-	}
+    bool Integer::isPositive() const {
+        return Integer::strIsPositive(value);
+    }
 
-	Integer& Integer::operator%=(const Integer& i) {
-		return *this;
-	}
+    std::string Integer::parseValue(std::string val) {
+        assert(strIsInteger(val));
+        val = stripPositiveSign(val);
+        val = stripLeadingZeros(val);
+        if (strAbsValue(val) == "0") {
+            val = "0";
+        }
+        return val;
+    }
 
-	Integer operator+(const Integer& lhs, const Integer& rhs) {
-		Integer lhsTemp = lhs;
-		Integer rhsTemp = rhs;
-		lhsTemp += rhsTemp;
-		return lhsTemp;
-	}
+    std::string Integer::strAbsValue(std::string str) const {
+        if (!strIsPositive(str)) {
+            return str.substr(1);
+        }
+        return str;
+    }
 
-	Integer operator-(const Integer& lhs, const Integer& rhs) {
-		Integer lhsTemp = lhs;
-		Integer rhsTemp = rhs;
+    Integer Integer::absValue() const {
+        return Integer(strAbsValue(value));
+    }
 
-		lhsTemp -= rhsTemp;
-		return lhsTemp;
-	}
+    bool Integer::strIsPositive(std::string str) {
+        if (!str.empty()) {
+            return str[0] != '-';
+        }
+        return false;
+    }
 
-	Integer operator*(const Integer& lhs, const Integer& rhs) {
-		return lhs;
-	}
+    bool Integer::strIsInteger(std::string str) {
+        int i = 0;
+        if (str[0] == '+' || str[0] == '-') {
+            i++;
+        }
+        while (i < str.size()) {
+            if (!('0' <= str[i] && str[i] <= '9')) {
+                return false;
+            }
+            i++;
+        }
+        return true;
+    }
 
-	Integer operator/(const Integer& lhs, const Integer& rhs) {
-		return lhs;
-	}
+    std::string Integer::stripLeadingZeros(std::string str) {
+        if (!Integer::strIsPositive(str)) {
+            if (str.size() > 1) {
+                int i = 1;
+                while (str[i] == '0' && i < str.size() - 1) {
+                    i++;
+                }
+                return str.substr(0, 1) + str.substr(i);
+            } else {
+                return str;
+            }
+        } else {
+            int i = 0;
+            while (str[i] == '0' && i < str.size() - 1) {
+                i++;
+            }
+            return str.substr(i);
+        }
+    }
 
-	Integer operator%(const Integer& lhs, const Integer& rhs) {
-		return lhs;
-	}
+    std::string Integer::stripPositiveSign(std::string str) {
+        if (str[0] == '+') {
+            if (str.size() == 1) {
+                return "";
+            } else {
+                return str.substr(1);
+            }
+        }
+        return str;
+    }
 
+    std::ostream &operator<<(std::ostream &os, const Integer &i) {
+        os << i.toString() << std::endl;
+        return os;
+    }
 
-	std::ostream& operator<<(std::ostream& os, const Integer& i) {
-		return os;
-	}
-
-	std::istream& operator>>(std::istream& is, Integer& i) {
-		return is;
-	}
-
-	bool operator<(const Integer& lhs, const Integer& rhs) {
-		return true;
-	}
-
-	bool operator> (const Integer& lhs, const Integer& rhs) {
-		return true;
-	}
-
-	bool operator<=(const Integer& lhs, const Integer& rhs) {
-		return true;
-	}
-
-	bool operator>=(const Integer& lhs, const Integer& rhs) {
-		return true;
-	}
-
-	bool operator==(const Integer& lhs, const Integer& rhs) {
-		return true;
-	}
-
-	bool operator!=(const Integer& lhs, const Integer& rhs) {
-		return true;
-	}
-
-
-	Integer gcd(const Integer& a, const Integer& b) {
-		return a;
-	}
-
+    std::istream &operator>>(std::istream &input, Integer &b) {
+        std::string val;
+        input >> val;
+        b.setValue(val);
+        return input;
+    }
 }

@@ -6,57 +6,70 @@
 
 #include <iostream>
 #include <string>
+#include <vector>
+#include <ostream>
 #include "Integer.h"
 
 namespace cosc326 {
 
-	class Rational {
-    
-	public:
+    class Rational {
 
-		Rational();
+    public:
+
+        Integer num = Integer();
+        Integer den = Integer();
+        Rational();
         Rational(const std::string& str);
         Rational(const Rational& r);
         Rational(const Integer& a); // a
         Rational(const Integer& a, const Integer& b); // a/b
         Rational(const Integer& a, const Integer& b, const Integer& c); // a + b/c
-        
-		~Rational();
+        ~Rational();
+        Rational simplify() const;
 
         Rational& operator=( const Rational& r); // q = r;
-        
-		// Unary operators
-		Rational operator-() const; // -r;
-		Rational operator+() const; // +r;
-	   
+
+        // Unary operators
+        Rational operator-() const; // -r;
+        Rational operator+() const; // +r;
+
         // Arithmetic assignment operators
-		Rational& operator+=(const Rational& r); // q += r;
-		Rational& operator-=(const Rational& r); // q -= r;
-		Rational& operator*=(const Rational& r); // q *= r;
-		Rational& operator/=(const Rational& r); // q /= r;
-												 
-		// lhs < rhs -- a 'friend' means < isn't a member, but can access the private parts of the class.
-		// You may need to make some other functions friends, but do so sparingly.
-		friend bool operator<(const Rational& lhs, const Rational& rhs);
+        Rational& operator+=(const Rational& r); // q += r;
+        Rational& operator-=(const Rational& r); // q -= r;
+        Rational& operator*=(const Rational& r); // q *= r;
+        Rational& operator/=(const Rational& r); // q /= r;
 
-	private:
-		// Can add internal storage or methods here
-	};
 
-	// Binary operators
-	Rational operator+(const Rational& lhs, const Rational& rhs); // lhs + rhs;
-	Rational operator-(const Rational& lhs, const Rational& rhs); // lhs - rhs;
-	Rational operator*(const Rational& lhs, const Rational& rhs); // lhs * rhs;
-	Rational operator/(const Rational& lhs, const Rational& rhs); // lhs / rhs;
-	
-	std::ostream& operator<<(std::ostream& os, const Rational& i);  // std::cout << i << std::endl;
-	std::istream& operator>>(std::istream& is, Rational& i);        // std::cin >> i;
+        // lhs < rhs -- a 'friend' means < isn't a member, but can access the private parts of the class.
+        // You may need to make some other functions friends, but do so sparingly.
+        friend bool operator<(const Rational& lhs, const Rational& rhs);
 
-	bool operator> (const Rational& lhs, const Rational& rhs); // lhs > rhs
-	bool operator<=(const Rational& lhs, const Rational& rhs); // lhs <= rhs
-	bool operator>=(const Rational& lhs, const Rational& rhs); // lhs >= rhs
-	bool operator==(const Rational& lhs, const Rational& rhs); // lhs == rhs
-	bool operator!=(const Rational& lhs, const Rational& rhs); // lhs != rhs
+
+        std::string toString() const;
+        Rational getValue() const;
+
+    private:
+        // Can add internal storage or methods here
+
+
+        Rational convertToImproper(Integer w, Integer n, Integer d);
+    };
+
+    // Binary operators
+    Rational operator+(const Rational& lhs, const Rational& rhs); // lhs + rhs;
+    Rational operator-(const Rational& lhs, const Rational& rhs); // lhs - rhs;
+    Rational operator*(const Rational& lhs, const Rational& rhs); // lhs * rhs;
+    Rational operator/(const Rational& lhs, const Rational& rhs); // lhs / rhs;
+
+    std::ostream& operator<<(std::ostream& os, const Rational& i);  // std::cout << i << std::endl;
+    std::istream& operator>>(std::istream& is, Rational& i);        // std::cin >> i;
+
+    bool operator<(const Rational& lhs, const Rational& rhs);
+    bool operator>(const Rational& lhs, const Rational& rhs); // lhs > rhs
+    bool operator<=(const Rational& lhs, const Rational& rhs); // lhs <= rhs
+    bool operator>=(const Rational& lhs, const Rational& rhs); // lhs >= rhs
+    bool operator==(const Rational& lhs, const Rational& rhs); // lhs == rhs
+    bool operator!=(const Rational& lhs, const Rational& rhs); // lhs != rhs
 
 }
 
