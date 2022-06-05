@@ -366,7 +366,7 @@ namespace cosc326
         }
         if (lhs.isPositive() && rhs.isPositive())
         {
-            return Integer::comparePositiveIntegers(lhs, rhs);
+            return Integer::compare(lhs, rhs);
         }
         else if (lhs.isPositive() && !rhs.isPositive())
         {
@@ -376,7 +376,7 @@ namespace cosc326
         {
             return true;
         }
-        return !Integer::comparePositiveIntegers(lhs.absValue(), rhs.absValue());
+        return !Integer::compare(lhs.absValue(), rhs.absValue());
     }
 
     bool operator>(const Integer &lhs, const Integer &rhs)
@@ -393,7 +393,7 @@ namespace cosc326
     {
         return (lhs > rhs) || (lhs == rhs);
     }
-    bool Integer::comparePositiveIntegers(const Integer &lhs, const Integer &rhs)
+    bool Integer::compare(const Integer &lhs, const Integer &rhs)
     {
         if (lhs.isPositive() == true && rhs.isPositive() == true)
         {
@@ -445,24 +445,30 @@ namespace cosc326
 
     bool Integer::isPositive() const
     {
-        return Integer::strIsPositive(value);
+        return Integer::isStringPositive(value);
     }
 
     std::string Integer::parseValue(std::string val)
     {
-        assert(strIsInteger(val));
-        val = removePositiveSign(val);
-        val = removeLeadingZeros(val);
-        if (strAbsValue(val) == "0")
+        if (isInteger(val) == true)
         {
-            val = "0";
+            val = removePositiveSign(val);
+            val = removeLeadingZeros(val);
+            if (strAbsValue(val) == "0")
+            {
+                val = "0";
+            }
+            return val;
         }
-        return val;
+        else
+        {
+            return NULL;
+        }
     }
 
     std::string Integer::strAbsValue(std::string str) const
     {
-        if (!strIsPositive(str))
+        if (!isStringPositive(str))
         {
             return str.substr(1);
         }
@@ -474,7 +480,7 @@ namespace cosc326
         return Integer(strAbsValue(value));
     }
 
-    bool Integer::strIsPositive(std::string str)
+    bool Integer::isStringPositive(std::string str)
     {
         if (!str.empty())
         {
@@ -483,7 +489,7 @@ namespace cosc326
         return false;
     }
 
-    bool Integer::strIsInteger(std::string str)
+    bool Integer::isInteger(std::string str)
     {
         int i = 0;
         if (str[0] == '+' || str[0] == '-')
@@ -503,7 +509,7 @@ namespace cosc326
 
     std::string Integer::removeLeadingZeros(std::string str)
     {
-        if (!Integer::strIsPositive(str))
+        if (!Integer::isStringPositive(str))
         {
             int current = 0;
             int length = str.length();

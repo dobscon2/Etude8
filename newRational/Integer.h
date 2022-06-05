@@ -50,7 +50,7 @@ namespace cosc326 {
 
         static Integer multiply(const Integer &lhs, const Integer &rhs);
 
-        static bool comparePositiveIntegers(const Integer &lhs, const Integer &rhs);
+        static bool compare(const Integer &lhs, const Integer &rhs);
 
         static Integer *divide(const Integer &lhs, const Integer &rhs);
 
@@ -68,9 +68,9 @@ namespace cosc326 {
 
         std::string removePositiveSign(std::string str);
 
-        static bool strIsPositive(std::string str);
+        static bool isStringPositive(std::string str);
 
-        static bool strIsInteger(std::string str);
+        static bool isInteger(std::string str);
 
         std::string parseValue(std::string value);
 
