@@ -268,4 +268,9 @@ int main(void) {
     std::string times_value = times.toString();
     printf("Times: %s\n", times_value.c_str());
 
+    Integer divide = y / x;
+
+    std::string divide_value = divide.toString();
+    printf("Divide: %s\n", divide_value.c_str());
+
 }
