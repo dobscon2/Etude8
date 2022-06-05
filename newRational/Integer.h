@@ -46,13 +46,13 @@ namespace cosc326 {
 
         bool isPositive() const;
 
-        static Integer addPositiveIntegers(const Integer &lhs, const Integer &rhs);
+        static Integer addition(const Integer &lhs, const Integer &rhs);
 
-        static Integer mulPositiveIntegers(const Integer &lhs, const Integer &rhs);
+        static Integer multiply(const Integer &lhs, const Integer &rhs);
 
         static bool comparePositiveIntegers(const Integer &lhs, const Integer &rhs);
 
-        static Integer *findQuotientAndRemainder(const Integer &lhs, const Integer &rhs);
+        static Integer *divide(const Integer &lhs, const Integer &rhs);
 
         static Integer diff(const Integer &lhs, const Integer &rhs);
 
@@ -64,9 +64,9 @@ namespace cosc326 {
 
         std::string value = "0";
 
-        std::string stripLeadingZeros(std::string str);
+        std::string removeLeadingZeros(std::string str);
 
-        std::string stripPositiveSign(std::string str);
+        std::string removePositiveSign(std::string str);
 
         static bool strIsPositive(std::string str);
 

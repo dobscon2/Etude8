@@ -29,16 +29,16 @@ namespace cosc326 {
     Integer operator/(const Integer &lhs, const Integer &rhs) {
         assert(rhs != ZERO);
         if (lhs.isPositive() && rhs.isPositive()) {
-            return Integer::findQuotientAndRemainder(lhs, rhs)[0];
+            return Integer::divide(lhs, rhs)[0];
         } else if (lhs.isPositive() && !rhs.isPositive()) {
-            return -Integer::findQuotientAndRemainder(lhs, rhs.absValue())[0];
+            return -Integer::divide(lhs, rhs.absValue())[0];
         } else if (!lhs.isPositive() && rhs.isPositive()) {
-            return -Integer::findQuotientAndRemainder(lhs.absValue(), rhs)[0];
+            return -Integer::divide(lhs.absValue(), rhs)[0];
         }
-        return Integer::findQuotientAndRemainder(lhs.absValue(), rhs.absValue())[0];
+        return Integer::divide(lhs.absValue(), rhs.absValue())[0];
     }
 
-    Integer *Integer::findQuotientAndRemainder(const Integer &lhs, const Integer &rhs) {
+    Integer *Integer::divide(const Integer &lhs, const Integer &rhs) {
         assert((rhs != ZERO));
         Integer quotient = Integer("0");
         Integer remainder = Integer("0");
@@ -79,16 +79,16 @@ namespace cosc326 {
 
     Integer operator*(const Integer &lhs, const Integer &rhs) {
         if (lhs.isPositive() && rhs.isPositive()) {
-            return Integer::mulPositiveIntegers(lhs, rhs);
+            return Integer::multiply(lhs, rhs);
         } else if (lhs.isPositive() && !rhs.isPositive()) {
-            return -Integer::mulPositiveIntegers(lhs, rhs.absValue());
+            return -Integer::multiply(lhs, rhs.absValue());
         } else if (!lhs.isPositive() && rhs.isPositive()) {
-            return -Integer::mulPositiveIntegers(lhs.absValue(), rhs);
+            return -Integer::multiply(lhs.absValue(), rhs);
         }
-        return Integer::mulPositiveIntegers(lhs.absValue(), rhs.absValue());
+        return Integer::multiply(lhs.absValue(), rhs.absValue());
     }
 
-    Integer Integer::mulPositiveIntegers(const Integer &lhs, const Integer &rhs) {
+    Integer Integer::multiply(const Integer &lhs, const Integer &rhs) {
         assert(lhs.isPositive() && lhs.isPositive());
 
         std::string num1 = lhs.toString();
@@ -180,7 +180,7 @@ namespace cosc326 {
 
     Integer operator+(const Integer &lhs, const Integer &rhs) {
         if (lhs.isPositive() && rhs.isPositive()) {
-            return cosc326::Integer::addPositiveIntegers(lhs, rhs);
+            return cosc326::Integer::addition(lhs, rhs);
         } else if (lhs.isPositive() && !rhs.isPositive()) {
             return -(rhs.absValue() - lhs.absValue());
         } else if (!lhs.isPositive() && rhs.isPositive()) {
@@ -189,7 +189,7 @@ namespace cosc326 {
         return -(lhs.absValue() + rhs.absValue());
     }
 
-    Integer Integer::addPositiveIntegers(const Integer &lhs, const Integer &rhs) {
+    Integer Integer::addition(const Integer &lhs, const Integer &rhs) {
         std::string str1 = lhs.toString();
         std::string str2 = rhs.toString();
         if (str1.length() > str2.length())
@@ -219,7 +219,7 @@ namespace cosc326 {
         if (lhs == ZERO || (lhs.absValue() == rhs.absValue())) {
             return Integer("0");
         }
-        Integer positiveRemainder = Integer::findQuotientAndRemainder(lhs.absValue(), rhs.absValue())[1];
+        Integer positiveRemainder = Integer::divide(lhs.absValue(), rhs.absValue())[1];
         if (lhs < ZERO || rhs < ZERO) {
             return (rhs.absValue() - positiveRemainder).absValue();
         } else {
@@ -296,21 +296,24 @@ namespace cosc326 {
         return (lhs > rhs) || (lhs == rhs);
     }
     bool Integer::comparePositiveIntegers(const Integer &lhs, const Integer &rhs) {
-        assert(lhs.isPositive() && rhs.isPositive());
-        std::string str1 = lhs.toString();
-        std::string str2 = rhs.toString();
-        int n1 = str1.length(), n2 = str2.length();
-        if (n1 < n2)
-            return true;
-        if (n2 < n1)
-            return false;
-        for (int i = 0; i < n1; i++) {
-            if (str1[i] < str2[i])
+        if (lhs.isPositive() == true && rhs.isPositive() == true) {
+            std::string str1 = lhs.toString();
+            std::string str2 = rhs.toString();
+            int n1 = str1.length(), n2 = str2.length();
+            if (n1 < n2)
                 return true;
-            else if (str1[i] > str2[i])
+            if (n2 < n1)
                 return false;
+            for (int i = 0; i < n1; i++) {
+                if (str1[i] < str2[i])
+                    return true;
+                else if (str1[i] > str2[i])
+                    return false;
+            }
+            return false;
+        } else {
+            return false;
         }
-        return false;
     }
 
     bool operator==(const Integer &lhs, const Integer &rhs) {
@@ -338,8 +341,8 @@ namespace cosc326 {
 
     std::string Integer::parseValue(std::string val) {
         assert(strIsInteger(val));
-        val = stripPositiveSign(val);
-        val = stripLeadingZeros(val);
+        val = removePositiveSign(val);
+        val = removeLeadingZeros(val);
         if (strAbsValue(val) == "0") {
             val = "0";
         }
@@ -378,7 +381,7 @@ namespace cosc326 {
         return true;
     }
 
-    std::string Integer::stripLeadingZeros(std::string str) {
+    std::string Integer::removeLeadingZeros(std::string str) {
         if (!Integer::strIsPositive(str)) {
             int current = 0;
             int length = str.length();
@@ -396,7 +399,7 @@ namespace cosc326 {
         }
     }
 
-    std::string Integer::stripPositiveSign(std::string str) {
+    std::string Integer::removePositiveSign(std::string str) {
         if (str[0] == '+') {
             if (str.size() == 1) {
                 return "";
