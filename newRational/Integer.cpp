@@ -380,21 +380,19 @@ namespace cosc326 {
 
     std::string Integer::stripLeadingZeros(std::string str) {
         if (!Integer::strIsPositive(str)) {
-            if (str.size() > 1) {
-                int i = 1;
-                while (str[i] == '0' && i < str.size() - 1) {
-                    i++;
+            int current = 0;
+            int length = str.length();
+            while (current < length) {
+                if (str[current] == '0') {
+                    current++;
+                } else {
+                    break;
                 }
-                return str.substr(0, 1) + str.substr(i);
-            } else {
-                return str;
             }
+            str = str.substr(current);
+            return str;
         } else {
-            int i = 0;
-            while (str[i] == '0' && i < str.size() - 1) {
-                i++;
-            }
-            return str.substr(i);
+            return str;
         }
     }
 

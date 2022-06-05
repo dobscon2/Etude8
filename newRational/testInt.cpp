@@ -262,4 +262,10 @@ int main(void) {
         printf("Not Greater than or equals\n\n");
     }
 
+    x = Integer("12");
+    y = Integer("15");
+    Integer times = x * y;
+    std::string times_value = times.toString();
+    printf("Times: %s\n", times_value.c_str());
+
 }
