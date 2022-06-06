@@ -53,7 +53,7 @@ namespace cosc326 {
         // Can add internal storage or methods here
 
 
-        Rational convertToImproper(Integer w, Integer n, Integer d);
+        //Rational convertToImproper(Integer w, Integer n, Integer d);
     };
 
     // Binary operators

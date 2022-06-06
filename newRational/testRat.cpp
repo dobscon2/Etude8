@@ -19,7 +19,7 @@ int main(void) {
     Rational stringCon = Rational("1/2");
     Rational stringCon2 = Rational("5/10");
     Rational stringCon3 = Rational("2.1/2");
-    Rational stringCon4 = Rational("2.5/10");
+    Rational stringCon4 = Rational("2.2/4");
     Rational stringCon5 = Rational("2.10/5");
     Rational stringCon6 = Rational("2.10/10");
     Rational stringCon7 = Rational("10/10");
@@ -28,35 +28,51 @@ int main(void) {
     Rational stringCon10 = Rational("-3.2/4");
     Rational stringCon11 = Rational("4/3");
     Rational stringCon12 = Rational("+15.32/2");
+    Rational stringCon13 = Rational("100/2");
+    Rational stringCon14 = Rational("99/2");
+    Rational stringCon15 = Rational("249/2");
+    Rational stringCon16 = Rational("200/2");
+    Rational stringCon17 = Rational("201/2");
 
-    Rational rat5 = Rational("1/4");
+    
 
-    Rational ratAddition = stringCon + rat5;
-
-    Rational ratAddition2 = stringCon4 + stringCon3;
-
-    cout << "String 1/2 = " << stringCon << "\n";
-    cout << "String 5/10 = " << stringCon2 << "\n";
-    cout << "String 2.1/2 = " << stringCon3 << "\n";
-    cout << "String 2.5/10 = " << stringCon4 << "\n";
-    cout << "String 2.10/5 = " << stringCon5 << "\n";
-    cout << "String 2.10/10 = " << stringCon6 << "\n";
-    cout << "String 10/10 = " << stringCon7 << "\n";
-    cout << "String -3.1/2 = " << stringCon8 << "\n";
-    cout << "String 0.1/3 = " << stringCon9 << "\n";
-    cout << "String -3.2/4 = " << stringCon10 << "\n";
-    cout << "String 4/3 = " << stringCon11 << "\n";
-    cout << "String +15.32/2 = " << stringCon12 << "\n";
+    //cout << "String 1/2 = " << stringCon << "\n";
+    //cout << "String 5/10 = " << stringCon2 << "\n";
+    //cout << "String 2.1/2 = " << stringCon3 << "\n";
+    //cout << "String 2.2/4 = " << stringCon4 << "\n";
+    //cout << "String 2.10/5 = " << stringCon5 << "\n";
+    //cout << "String 2.10/10 = " << stringCon6 << "\n";
+    //cout << "String 10/10 = " << stringCon7 << "\n";
+    //cout << "String -3.1/2 = " << stringCon8 << "\n";
+    //cout << "String 0.1/3 = " << stringCon9 << "\n";
+    //cout << "String -3.2/4 = " << stringCon10 << "\n";
+    //cout << "String 4/3 = " << stringCon11 << "\n";
+    //cout << "String +15.32/2 = " << stringCon12 << "\n";
+    cout << "String 100/2 = " << stringCon13 << "\n";
+    cout << "String 99/2 = " << stringCon14 << "\n";
+    cout << "String 249/2 = " << stringCon15 << "\n";
+    cout << "String 200/2 = " << stringCon16 << "\n";
+    cout << "String 201/2 = " << stringCon17 << "\n";
 
 
     // Testing addition
+    Rational rat5 = Rational("1/4");
+
+    Rational ratAddition = stringCon + rat5;
+    cout << "1/2 + 1/4 = " << ratAddition << "\n";
+
+    Rational add2 = Rational("1.1/2") + Rational("2.1/2");
+    cout << "Add 1.1/2 + 2.1/2 = " << add2 << "\n";
+
+
+    Rational ratAddition2 = stringCon4 + stringCon3;
+    cout << "2.2/4 + 2.1/2 = " << ratAddition2 << "\n";
+
     Rational add1 = Rational("1/2") + Rational("1/2");
     cout << "Add 1/2 + 1/2 = " << add1 << "\n";
 
 
 
 
-    cout << "1/2 + 1/4 = " << ratAddition << "\n";
-    cout << "2.5/10 + 2.1/2 = " << ratAddition2 << "\n";
 
 }
