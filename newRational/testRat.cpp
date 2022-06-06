@@ -29,6 +29,12 @@ int main(void) {
     Rational stringCon11 = Rational("4/3");
     Rational stringCon12 = Rational("+15.32/2");
 
+    Rational rat5 = Rational("1/4");
+
+    Rational ratAddition = stringCon + rat5;
+
+    Rational ratAddition2 = stringCon4 + stringCon3;
+
     cout << "String 1/2 = " << stringCon << "\n";
     cout << "String 5/10 = " << stringCon2 << "\n";
     cout << "String 2.1/2 = " << stringCon3 << "\n";
@@ -50,5 +56,7 @@ int main(void) {
 
 
 
+    cout << "1/2 + 1/4 = " << ratAddition << "\n";
+    cout << "2.5/10 + 2.1/2 = " << ratAddition2 << "\n";
 
 }
