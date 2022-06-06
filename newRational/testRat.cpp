@@ -43,6 +43,12 @@ int main(void) {
     cout << "String +15.32/2 = " << stringCon12 << "\n";
 
 
+    // Testing addition
+    Rational add1 = Rational("1/2") + Rational("1/2");
+    cout << "Add 1/2 + 1/2 = " << add1 << "\n";
+
+
+
 
 
 }

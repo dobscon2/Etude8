@@ -1,6 +1,5 @@
 #include "Integer.h"
 
-// Need a ++ method and --
 
 namespace cosc326
 {
