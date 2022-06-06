@@ -9,7 +9,7 @@ namespace cosc326
         den = Integer("1");
     }
 
-    Rational::Rational(const std::string &str)
+    Rational::Rational(const std::string& str)
     {
         Integer whole = Integer();
         Rational temp;
@@ -173,32 +173,52 @@ namespace cosc326
     {
         std::string s;
         Integer whole, numerator, denominator;
+        whole = i.whole;
+        
         Rational simplified = i.simplify();
         Integer num = simplified.num;
         Integer den = simplified.den;
         whole = i.whole;
-        if (den == Integer("1"))
+        if (den == Integer("1") && whole == ZERO)
         {
+            printf("hi1\t");  // debugging
             Integer g = Integer(num);
             s = g.toString();
             os << s;
-        }
-        else if (num.absValue() > den.absValue())
+        } else if (num.absValue() > den.absValue())
         {
+            printf("hi2\t"); // debugging
             whole = whole + (num / den);
             Integer p = num.absValue() % den;
             numerator = Integer(p);
-            denominator = Integer(den.absValue());
-            Rational t = Rational(numerator, denominator).simplify();
-            s = whole.toString() + "." + t.num.toString() + "/" + t.den.toString();
+            if (numerator == Integer("0")) {
+                s = whole.toString();
+            } else {
+                denominator = Integer(den.absValue());
+                Rational t = Rational(numerator, denominator).simplify();
+                s = whole.toString() + "." + t.num.toString() + "/" + t.den.toString();
+            }
+            
             os << s;
+            return os;
         }
         else if (num.absValue() == den.absValue())
         {
-            os << "1";
+            if (whole == ZERO) {
+                printf("hi3\t"); // debugging
+                os << "1";
+            } else {
+                printf("hi4\t"); // debugging
+                whole = whole + Integer("1");
+                s = whole.toString();
+                os << s;
+
+            }
+            
         }
         else if (num == ZERO)
         {
+            printf("hi5\t"); // debugging
             os << "0";
         }
         else
