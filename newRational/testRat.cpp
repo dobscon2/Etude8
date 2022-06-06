@@ -72,6 +72,20 @@ int main(void) {
     cout << "Add 1/2 + 1/2 = " << add1 << "\n";
 
 
+    // Testing Subtraction
+
+    Rational sub1 = Rational("1/2") - Rational("1/2");
+    cout << "Subtract 1/2 - 1/2 = " << sub1 << "\n";
+
+    Rational sub2 = Rational("3/4") - Rational("1/4");
+    cout << "Subtract 3/4 - 1/4 = " << sub2 << "\n";
+
+    Rational sub3 = Rational("3/4") - Rational("1/2");
+    cout << "Subtract 3/4 - 1/2 = " << sub3 << "\n";
+
+    Rational sub3 = Rational("3/4") - Rational("1/2");
+    cout << "Subtract 3/4 - 1/2 = " << sub3 << "\n";
+
 
 
 

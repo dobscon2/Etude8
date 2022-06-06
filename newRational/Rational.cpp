@@ -127,28 +127,28 @@ namespace cosc326
 
     Rational operator+(const Rational &lhs, const Rational &rhs)
     {
-        printf("Executed   \n");
+        //printf("Executed   \n");
         Rational lhsTemp;
         Rational rhsTemp;
         if(lhs.whole != ZERO) {
-            printf("1:  \n");  // Debugging
+            ///printf("1:  \n");  // Debugging
             Integer temp = (lhs.whole * lhs.den) + lhs.num;
             lhsTemp.num = temp;
             lhsTemp.den = lhs.den;
             lhsTemp.whole = Integer("0");
         } else {
-            printf("2:  \n");  // Debugging
+            //printf("2:  \n");  // Debugging
             lhsTemp = lhs;
         }
         if (rhs.whole != ZERO) {
-            printf("3:  \n");  // Debugging
+            //printf("3:  \n");  // Debugging
             Integer temp = (rhs.whole * rhs.den) + rhs.num;
             rhsTemp.num = temp;
             rhsTemp.den = rhs.den;
             rhsTemp.whole = Integer();
             
         } else {
-            printf("4:  \n");  // Debugging
+            //printf("4:  \n");  // Debugging
             rhsTemp = rhs;
         }
         Rational temp;
@@ -160,8 +160,8 @@ namespace cosc326
         temp.num = tempNum;
         temp.den = tempDen;
         temp.whole = tempWhole;
-        printf("Executed simplify \n");
-        printf("Before simplify = %s / %s\n", temp.num.toString().c_str(), temp.den.toString().c_str());
+        //printf("Executed simplify \n");
+        //printf("Before simplify = %s / %s\n", temp.num.toString().c_str(), temp.den.toString().c_str());
         return temp.simplify();
     }
 
@@ -212,13 +212,13 @@ namespace cosc326
         whole = i.whole;
         if (den == Integer("1") && whole == ZERO)
         {
-            printf("hi1\t");  // debugging
+            //printf("hi1\t");  // debugging
             Integer g = Integer(num);
             s = g.toString();
             os << s;
         } else if (num.absValue() > den.absValue())
         {
-            printf("hi2\t"); // debugging
+            //printf("hi2\t"); // debugging
             whole = whole + (num / den);
             Integer p = num.absValue() % den;
             numerator = Integer(p);
@@ -236,10 +236,10 @@ namespace cosc326
         else if (num.absValue() == den.absValue())
         {
             if (whole == ZERO) {
-                printf("hi3\t"); // debugging
+                //printf("hi3\t"); // debugging
                 os << "1";
             } else {
-                printf("hi4\t"); // debugging
+                //printf("hi4\t"); // debugging
                 whole = whole + Integer("1");
                 s = whole.toString();
                 os << s;
@@ -249,7 +249,7 @@ namespace cosc326
         }
         else if (num == ZERO)
         {
-            printf("hi5\t"); // debugging
+            //printf("hi5\t"); // debugging
             os << "0";
         }
         else
@@ -357,7 +357,7 @@ namespace cosc326
         Rational temp;
         Integer greatestCD;
         greatestCD = gcd(this->den, this->num);
-        printf("GCD value = %s\n", greatestCD.toString().c_str());
+        //printf("GCD value = %s\n", greatestCD.toString().c_str());
         temp.den = den / greatestCD;
         temp.num = num / greatestCD;
         //temp.whole = whole;
