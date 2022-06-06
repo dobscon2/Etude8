@@ -93,8 +93,8 @@ int main(void) {
     Rational sub4 = Rational("2.1/2") - Rational("1.1/2");
     cout << "Subtract 2.1/2 - 1.1/2 = " << sub4 << "\n";
 
-    //Rational sub5 = Rational("2.3/4") - Rational("1.1/4");
-    //cout << "Subtract 2.3/4 - 1.1/4 = " << sub5 << "\n";
+    Rational sub5 = Rational("2.3/4") - Rational("1.1/4");
+    cout << "Subtract 2.3/4 - 1.1/4 = " << sub5 << "\n";
 
     Rational sub6 = Rational("1.3/4") - Rational("1.1/4");
     cout << "Subtract 1.3/4 - 1.1/4 = " << sub6 << "\n";

@@ -279,8 +279,8 @@ int main(void) {
     std::string divide_value2 = divide2.toString();
     //printf("Divide2: %s\n", divide_value2.c_str());
     cout << divide2;
-    Integer divide2 = Integer("100") / Integer("2");
-    printf("Divide2 = %s\n", divide2.toString().c_str());
+    Integer divide3 = Integer("100") / Integer("2");
+    printf("Divide2 = %s\n", divide3.toString().c_str());
 
     Integer mod_value = Integer("463") % Integer("86");
     printf("mod = %s\n", mod_value.toString().c_str());
