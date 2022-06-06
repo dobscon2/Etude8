@@ -348,8 +348,8 @@ namespace cosc326
 
     bool operator<(const Rational &lhs, const Rational &rhs)
     {
-        Integer temp1 = lhs.num * rhs.den;
-        Integer temp2 = lhs.den * rhs.num;
+        Integer temp1 = lhs.whole + (lhs.num * rhs.den);
+        Integer temp2 = rhs.whole + (lhs.den * rhs.num);
         if (temp1 < temp2)
         {
             return true;
@@ -363,8 +363,8 @@ namespace cosc326
     bool operator>(const Rational &lhs, const Rational &rhs)
     {
 
-        Integer temp1 = lhs.num * rhs.den;
-        Integer temp2 = lhs.den * rhs.num;
+        Integer temp1 = lhs.whole + (lhs.num * rhs.den);
+        Integer temp2 = rhs.whole + (lhs.den * rhs.num);
         if (temp1 > temp2)
         {
             return true;
@@ -404,6 +404,7 @@ namespace cosc326
     bool operator==(const Rational &lhs, const Rational &rhs)
     {
         Rational temp = lhs / rhs;
+        printf("Executed\n");
         if ((temp.num.absValue() == ONE && temp.den.absValue() == ONE))
         {
             return true;

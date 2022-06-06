@@ -156,4 +156,36 @@ int main(void) {
     Rational divid8 = Rational("3.3/4") / Rational("1.1/2");
     cout << "Dividing 3.3/4 / 1.1/2 = " << divid8 << "\n";
 
+    Rational compare1 = Rational("3.1/4");
+    Rational compare2 = Rational("1/2");
+
+    if (compare1 > compare2) {
+        cout << "True\n";
+    } else {
+        cout << "False\n";
+    }
+
+    if (compare1 == compare2) {
+        cout << "Incorrect\n";
+    } else {
+        cout << "True\n";
+    }
+
+    Rational compare3 = Rational("1/4");
+
+    if (compare3 < compare1) {
+        cout << "1\n";
+    } else {
+        cout << "0\n";
+    }
+
+    Rational divide = compare3 / compare2;
+
+    cout << "Divide: " << divide << "\n";
+
+    if (compare2 == compare3) {
+        cout << "Yes\n";
+    } else {
+        cout << "No\n";
+    }
 }
