@@ -36,18 +36,21 @@ namespace cosc326
     {
         this->den = r.den;
         this->num = r.num;
+        this->whole = r.whole;
     }
 
     Rational::Rational(const Integer &a)
     {
         this->num = a;
         this->den = Integer("1");
+        this->whole = Integer("0");
     }
 
     Rational::Rational(const Integer &a, const Integer &b)
     {
         this->num = a;
         this->den = b;
+        this->whole = Integer("0");
     }
 
     Rational::Rational(const Integer& a, const Integer& b, const Integer& c)
@@ -282,7 +285,7 @@ namespace cosc326
     }
 
     bool operator>=(const Rational &lhs, const Rational &rhs)
-    { // look into this???
+    {
 
         if ((lhs > rhs) || (lhs == rhs))
         {
