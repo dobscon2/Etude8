@@ -170,24 +170,24 @@ namespace cosc326
         Rational lhsTemp;
         Rational rhsTemp;
         if(lhs.whole != ZERO) {
-            printf("1:  \n");  // Debugging
+            //printf("1:  \n");  // Debugging
             Integer temp = (lhs.whole * lhs.den) + lhs.num;
             lhsTemp.num = temp;
             lhsTemp.den = lhs.den;
             lhsTemp.whole = Integer("0");
         } else {
-            printf("2:  \n");  // Debugging
+            //printf("2:  \n");  // Debugging
             lhsTemp = lhs;
         }
         if (rhs.whole != ZERO) {
-            printf("3:  \n");  // Debugging
+            //printf("3:  \n");  // Debugging
             Integer temp = (rhs.whole * rhs.den) + rhs.num;
             rhsTemp.num = temp;
             rhsTemp.den = rhs.den;
             rhsTemp.whole = Integer("0");
             
         } else {
-            printf("4:  \n");  // Debugging
+            //printf("4:  \n");  // Debugging
             rhsTemp = rhs;
         }
 
@@ -196,12 +196,8 @@ namespace cosc326
         temp.num = (lhsTemp.num * rhsTemp.den) - (rhsTemp.num * lhsTemp.den);
         temp.den = lhsTemp.den * rhsTemp.den;
         temp.whole = Integer("0");
-        temp.num = temp.num;
-        if (temp.num.toString().at(0) == '0'){
-            temp.num = Integer(temp.num.toString().substr(1));
-        }
-        printf("Executed simplify \n");
-        printf("Before simplify = %s / %s\n", temp.num.toString().c_str(), temp.den.toString().c_str());
+        //printf("Executed simplify \n");
+        //printf("Before simplify = %s / %s\n", temp.num.toString().c_str(), temp.den.toString().c_str());
         return temp.simplify();
     }
 
@@ -239,6 +235,8 @@ namespace cosc326
         whole = i.whole;
         
         Rational simplified = i.simplify();
+        //printf("\nsimplified num: %s\n", simplified.num.toString().c_str()); // debugging
+        //printf("simplified den: %s\n", simplified.den.toString().c_str()); // debugging
         Integer num = simplified.num;
         Integer den = simplified.den;
         whole = i.whole;
@@ -390,8 +388,12 @@ namespace cosc326
         Integer greatestCD;
         greatestCD = gcd(this->den, this->num);
         //printf("GCD value = %s\n", greatestCD.toString().c_str());
+        //printf("num = %s\n", num.toString().c_str());
+        //printf("den = %s\n", den.toString().c_str());
         temp.den = den / greatestCD;
         temp.num = num / greatestCD;
+        //printf("num after divid of gcd = %s\n", temp.num.toString().c_str());
+        //printf("den after divid of gcd = %s\n", temp.den.toString().c_str());
         //temp.whole = whole;
         return temp;
         //return Rational();

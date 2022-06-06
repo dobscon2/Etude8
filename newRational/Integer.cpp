@@ -11,7 +11,7 @@ namespace cosc326
     // Integer Constructor
     Integer::Integer(const Integer& i)
     {
-        value = i.value;
+        value = parseValue(i.value);
     }
     
     // String Constructor
@@ -48,7 +48,7 @@ namespace cosc326
 
     Integer operator/(const Integer &lhs, const Integer &rhs)
     {
-        if (rhs != ZERO)
+        if (rhs != ZERO && lhs != ZERO)
         {
             if (lhs.isPositive() && rhs.isPositive())
             {
@@ -488,11 +488,13 @@ namespace cosc326
 
     std::string Integer::removeLeadingZeros(std::string str)
     {
-        if (Integer::isStringPositive(str) && str.length() != 1)
+        //printf("Lenght: %d \n", str.length()); //debugging
+
+        if (Integer::isStringPositive(str) && str != "0")
         {
             //printf("HI2\n"); //debugging
             int current = 0;
-            int length = str.size();
+            int length = str.length();
             while (current < length)
             {
             //printf("HI3\n"); //debugging

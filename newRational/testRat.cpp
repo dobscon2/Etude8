@@ -33,6 +33,7 @@ int main(void) {
     Rational stringCon15 = Rational("249/2");
     Rational stringCon16 = Rational("200/2");
     Rational stringCon17 = Rational("201/2");
+    Rational stringCon18 = Rational("0/2");
 
     
 
@@ -53,6 +54,7 @@ int main(void) {
     cout << "String 249/2 = " << stringCon15 << "\n";
     cout << "String 200/2 = " << stringCon16 << "\n";
     cout << "String 201/2 = " << stringCon17 << "\n";
+    cout << "String 0/2 = " << stringCon18 << "\n";
 
 
     // Testing addition
@@ -73,7 +75,7 @@ int main(void) {
 
 
     // Testing Subtraction
-/*
+    cout << "Subtract\n";
     Rational sub1 = Rational("1/2") - Rational("1/2");
     cout << "Subtract 1/2 - 1/2 = " << sub1 << "\n";
 
@@ -85,7 +87,7 @@ int main(void) {
 
     Rational sub30 = Rational("3/4") - Rational("1/2");
     cout << "Subtract 3/4 - 1/2 = " << sub30 << "\n";
-    */
+
 
     Rational temp = Rational("8/16");
     cout << "temp     " << temp << "\n";

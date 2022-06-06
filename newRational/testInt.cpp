@@ -288,4 +288,7 @@ int main(void) {
     Integer gcd_value = gcd(Integer("983"), Integer("65"));
     printf("gcd = %s\n", gcd_value.toString().c_str());
 
+    Integer divide4 = Integer("0") / Integer("2");
+    printf("Divide2 = %s\n", divide4.toString().c_str());
+
 }
