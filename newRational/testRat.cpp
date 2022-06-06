@@ -83,9 +83,6 @@ int main(void) {
     Rational sub3 = Rational("3/4") - Rational("1/2");
     cout << "Subtract 3/4 - 1/2 = " << sub3 << "\n";
 
-    Rational sub3 = Rational("3/4") - Rational("1/2");
-    cout << "Subtract 3/4 - 1/2 = " << sub3 << "\n";
-
 
 
 

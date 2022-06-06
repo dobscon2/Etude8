@@ -273,4 +273,13 @@ int main(void) {
     std::string divide_value = divide.toString();
     printf("Divide: %s\n", divide_value.c_str());
 
+    Integer divide2 = Integer("100") / Integer("2");
+    printf("Divide2 = %s\n", divide2.toString().c_str());
+
+    Integer mod_value = Integer("463") % Integer("86");
+    printf("mod = %s\n", mod_value.toString().c_str());
+
+    Integer gcd_value = gcd(Integer("983"), Integer("65"));
+    printf("gcd = %s\n", gcd_value.toString().c_str());
+
 }

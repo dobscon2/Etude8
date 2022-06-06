@@ -74,51 +74,25 @@ namespace cosc326
     {
         if (rhs != ZERO)
         {
-            Integer quotient = Integer("0");
+            Integer lhsTemp = lhs;
+            Integer rhsTemp = Integer(rhs.absValue());
+            auto *result_values = new Integer[2];
             Integer remainder = Integer("0");
-            auto *result = new Integer[2];
-            if ((ZERO < lhs) && (lhs < rhs))
-            {
-                remainder = Integer(rhs);
-            }
-            if ((lhs != ZERO))
-            {
-                if (lhs == rhs)
-                {
-                    quotient = Integer("1");
-                }
-                else
-                {
-                    std::string dvd = lhs.toString();
-                    std::string dvs = rhs.toString();
-                    remainder = Integer("" + dvd);
-                    int baseCount;
-                    int magDiff;
-                    Integer dvsAdj;
-                    while (remainder >= rhs)
-                    {
-                        baseCount = 0;
-                        magDiff = std::max(int(remainder.toString().size() - dvs.size() - 1), 0);
-                        dvsAdj = Integer(dvs + (std::string(magDiff, '0')));
-                        while (remainder > ZERO)
-                        {
-                            if ((remainder - dvsAdj) >= ZERO)
-                            {
-                                remainder -= dvsAdj;
-                                baseCount++;
-                            }
-                            else
-                            {
-                                break;
-                            }
-                        }
-                        quotient += Integer(std::to_string(baseCount) + std::string(magDiff, '0'));
-                    }
+            Integer result = Integer("0");
+
+            remainder = lhs - rhs;
+            result = Integer("1");
+            while (remainder >= rhsTemp) {
+                remainder = remainder - rhsTemp;
+                result = result + Integer("1");
+                if (remainder.value == "01") {
+                    remainder = Integer("1");
+                    break;
                 }
             }
-            result[0] = quotient;
-            result[1] = remainder;
-            return result;
+            result_values[0] = result;
+            result_values[1] = remainder;
+            return result_values;
         }
         else
         {
