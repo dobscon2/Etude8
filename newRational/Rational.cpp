@@ -167,9 +167,41 @@ namespace cosc326
 
     Rational operator-(const Rational &lhs, const Rational &rhs)
     {
+        Rational lhsTemp;
+        Rational rhsTemp;
+        if(lhs.whole != ZERO) {
+            printf("1:  \n");  // Debugging
+            Integer temp = (lhs.whole * lhs.den) + lhs.num;
+            lhsTemp.num = temp;
+            lhsTemp.den = lhs.den;
+            lhsTemp.whole = Integer("0");
+        } else {
+            printf("2:  \n");  // Debugging
+            lhsTemp = lhs;
+        }
+        if (rhs.whole != ZERO) {
+            printf("3:  \n");  // Debugging
+            Integer temp = (rhs.whole * rhs.den) + rhs.num;
+            rhsTemp.num = temp;
+            rhsTemp.den = rhs.den;
+            rhsTemp.whole = Integer("0");
+            
+        } else {
+            printf("4:  \n");  // Debugging
+            rhsTemp = rhs;
+        }
+
+
         Rational temp;
-        temp.num = (lhs.num * rhs.den) - (rhs.num * lhs.den);
-        temp.den = lhs.den * rhs.den;
+        temp.num = (lhsTemp.num * rhsTemp.den) - (rhsTemp.num * lhsTemp.den);
+        temp.den = lhsTemp.den * rhsTemp.den;
+        temp.whole = Integer("0");
+        temp.num = temp.num;
+        if (temp.num.toString().at(0) == '0'){
+            temp.num = Integer(temp.num.toString().substr(1));
+        }
+        printf("Executed simplify \n");
+        printf("Before simplify = %s / %s\n", temp.num.toString().c_str(), temp.den.toString().c_str());
         return temp.simplify();
     }
 

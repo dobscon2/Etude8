@@ -57,12 +57,14 @@ namespace cosc326 {
         static Integer diff(const Integer &lhs, const Integer &rhs);
 
         Integer absValue() const;
+
+        std::string removeLeadingZeros(std::string str);
       
     private:
 
         std::string value = "0";
 
-        std::string removeLeadingZeros(std::string str);
+        
 
         std::string removePositiveSign(std::string str);
 

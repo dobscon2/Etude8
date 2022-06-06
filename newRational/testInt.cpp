@@ -273,4 +273,11 @@ int main(void) {
     std::string divide_value = divide.toString();
     printf("Divide: %s\n", divide_value.c_str());
 
+
+    Integer divide2 = Integer("08");
+
+    std::string divide_value2 = divide2.toString();
+    //printf("Divide2: %s\n", divide_value2.c_str());
+    cout << divide2;
+
 }
