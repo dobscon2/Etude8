@@ -2,30 +2,31 @@
 
 namespace cosc326
 {
-
-    Integer::Integer() = default;
-
-    Integer::~Integer() = default;
-
-    Integer::Integer(const std::string &digits)
-    {
-        value = parseValue(digits);
+    // default constructor
+    Integer::Integer(){
+        this->value = "0";
     }
 
-    Integer::Integer(const Integer &b)
+    // Integer Constructor
+    Integer::Integer(const Integer& i)
     {
-        value = b.toString();
+        value = i.value;
+    }
+    
+    // String Constructor
+    Integer::Integer(const std::string& s)
+    {
+        value = parseValue(s);
     }
 
-    std::string Integer::toString() const
-    {
-        return value;
-    }
 
     void Integer::setValue(std::string val)
     {
         value = parseValue(std::move(val));
     }
+
+    //Destructor
+    Integer::~Integer(){}
 
     std::string Integer::repr() const
     {
@@ -561,5 +562,12 @@ namespace cosc326
         input >> val;
         b.setValue(val);
         return input;
+    }
+
+
+    // To String Method
+    std::string Integer::toString() const
+    {
+        return value;
     }
 }

@@ -15,22 +15,21 @@ namespace cosc326
         Rational temp;
         std::size_t foundDot = str.find(".");
         std::size_t foundSlash = str.find("/");
-        if (foundDot != std::string::npos)
-        {
+        if (foundDot != std::string::npos) {
             std::string wholeS = str.substr(0, foundDot);
             std::string num = str.substr(foundDot + 1, foundSlash - foundDot - 1);
             std::string den = str.substr(foundSlash + 1, str.length() + 1);
-            temp = convertToImproper(Integer(wholeS), Integer(num), Integer(den));
-            this->den = (temp.den).absValue();
-            this->num = temp.num;
-        }
-        else
-        {
+            //temp = convertToImproper(Integer(wholeS), Integer(num), Integer(den));
+            this->den = Integer(den);
+            this->num = Integer(num);
+            this->whole = Integer(wholeS);
+        } else {
             std::string num = str.substr(0, foundSlash);
             std::string den = str.substr(foundSlash + 1, foundSlash - str.length() + 1);
             this->num = Integer(num);
             this->den = Integer(den);
         }
+
     };
 
     Rational::Rational(const Rational &r)
@@ -51,11 +50,12 @@ namespace cosc326
         this->den = b;
     }
 
-    Rational::Rational(const Integer &a, const Integer &b, const Integer &c)
+    Rational::Rational(const Integer& a, const Integer& b, const Integer& c)
     {
-        Rational g = convertToImproper(a, b, c);
-        this->den = g.den;
-        this->num = g.num;
+        //Rational g = convertToImproper(a, b, c);
+        this->den = c;
+        this->num = b;
+        this->whole = a;
     }
 
     Rational::~Rational() = default;
@@ -176,6 +176,7 @@ namespace cosc326
         Rational simplified = i.simplify();
         Integer num = simplified.num;
         Integer den = simplified.den;
+        whole = i.whole;
         if (den == Integer("1"))
         {
             Integer g = Integer(num);
@@ -184,7 +185,7 @@ namespace cosc326
         }
         else if (num.absValue() > den.absValue())
         {
-            whole = num / den;
+            whole = whole + (num / den);
             Integer p = num.absValue() % den;
             numerator = Integer(p);
             denominator = Integer(den.absValue());
@@ -202,7 +203,11 @@ namespace cosc326
         }
         else
         {
-            s = num.toString() + "/" + den.toString();
+            if (whole != ZERO) {
+                s = whole.toString() + "." + num.toString() + "/" + den.toString();
+            } else {
+                s = num.toString() + "/" + den.toString();
+            }
             os << s;
         }
         return os;
@@ -303,8 +308,9 @@ namespace cosc326
         greatestCD = gcd(this->den, this->num);
         temp.den = den / greatestCD;
         temp.num = num / greatestCD;
+        //temp.whole = whole;
         return temp;
-        return Rational();
+        //return Rational();
     }
 
     Rational Rational::getValue() const
@@ -312,6 +318,7 @@ namespace cosc326
         Rational temp;
         temp.den = this->den;
         temp.num = this->num;
+        temp.whole = this->whole;
         return temp;
     }
 

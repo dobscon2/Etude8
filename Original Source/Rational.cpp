@@ -248,7 +248,6 @@ namespace cosc326 {
         temp.den = den / greatestCD; //might need to change
         temp.num = num / greatestCD;
         return temp;
-        return Rational();
     }
 
     Rational Rational::getValue() const {

@@ -17,6 +17,7 @@ namespace cosc326 {
 
         Integer num = Integer();
         Integer den = Integer();
+        Integer whole = Integer();
         Rational();
         Rational(const std::string& str);
         Rational(const Rational& r);
