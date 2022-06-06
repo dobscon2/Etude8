@@ -34,6 +34,8 @@ int main(void) {
     Rational stringCon16 = Rational("200/2");
     Rational stringCon17 = Rational("201/2");
     Rational stringCon18 = Rational("0/2");
+    Rational stringCon19 = Rational("-2.1/3");
+    Rational stringCon20 = Rational("-8/3");
 
     
 
@@ -55,6 +57,8 @@ int main(void) {
     cout << "String 200/2 = " << stringCon16 << "\n";
     cout << "String 201/2 = " << stringCon17 << "\n";
     cout << "String 0/2 = " << stringCon18 << "\n";
+    cout << "String -2.1/3 = " << stringCon19 << "\n";
+    cout << "String -8/3= " << stringCon20 << "\n";
 
 
     // Testing addition
@@ -88,10 +92,6 @@ int main(void) {
     Rational sub30 = Rational("3/4") - Rational("1/2");
     cout << "Subtract 3/4 - 1/2 = " << sub30 << "\n";
 
-
-    Rational temp = Rational("8/16");
-    cout << "temp     " << temp << "\n";
-
     Rational sub4 = Rational("2.1/2") - Rational("1.1/2");
     cout << "Subtract 2.1/2 - 1.1/2 = " << sub4 << "\n";
 
@@ -103,4 +103,57 @@ int main(void) {
 
     Rational sub7 = Rational("3.3/4") - Rational("1.1/2");
     cout << "Subtract 3.3/4 - 1.1/2 = " << sub7 << "\n";
+
+    // Testing multiplication
+    cout << "Multyply\n";
+    Rational mult1 = Rational("1/2") * Rational("1/2");
+    cout << "Multyply 1/2 * 1/2 = " << mult1 << "\n";
+
+    Rational mult2 = Rational("3/4") * Rational("1/4");
+    cout << "Multyply 3/4 * 1/4 = " << mult2 << "\n";
+
+    Rational mult3 = Rational("3/4") * Rational("1/2");
+    cout << "Multyply 3/4 * 1/2 = " << mult3 << "\n";
+
+    Rational mult4 = Rational("3/4") * Rational("1/2");
+    cout << "Multyply 3/4 * 1/2 = " << mult4 << "\n";
+
+    Rational mult5 = Rational("2.1/2") * Rational("1.1/2");
+    cout << "Multyply 2.1/2 * 1.1/2 = " << mult5 << "\n";
+
+    Rational mult6 = Rational("2.3/4") * Rational("1.1/4");
+    cout << "Multyply 2.3/4 * 1.1/4 = " << mult6 << "\n";
+
+    Rational mult7 = Rational("1.3/4") * Rational("1.1/4");
+    cout << "Multyply 1.3/4 * 1.1/4 = " << mult7 << "\n";
+
+    Rational mult8 = Rational("3.3/4") * Rational("1.1/2");
+    cout << "Multyply 3.3/4 * 1.1/2 = " << mult8 << "\n";
+
+    // Testing Division
+    cout << "Dividing\n";
+    Rational divid1 = Rational("1/2") / Rational("1/2");
+    cout << "Dividing 1/2 / 1/2 = " << divid1 << "\n";
+
+    Rational divid2 = Rational("3/4") / Rational("1/4");
+    cout << "Dividing 3/4 / 1/4 = " << divid2 << "\n";
+
+    Rational divid3 = Rational("3/4") / Rational("1/2");
+    cout << "Dividing 3/4 / 1/2 = " << divid3 << "\n";
+
+    Rational divid4 = Rational("3/4") / Rational("1/2");
+    cout << "Dividing 3/4 / 1/2 = " << divid4 << "\n";
+
+    Rational divid5 = Rational("2.1/2") / Rational("1.1/2");
+    cout << "Dividing 2.1/2 / 1.1/2 = " << divid5 << "\n";
+
+    Rational divid6 = Rational("2.3/4") / Rational("1.1/4");
+    cout << "Dividing 2.3/4 / 1.1/4 = " << divid6 << "\n";
+
+    Rational divid7 = Rational("1.3/4") / Rational("1.1/4");
+    cout << "Dividing 1.3/4 / 1.1/4 = " << divid7 << "\n";
+
+    Rational divid8 = Rational("3.3/4") / Rational("1.1/2");
+    cout << "Dividing 3.3/4 / 1.1/2 = " << divid8 << "\n";
+
 }

@@ -203,27 +203,73 @@ namespace cosc326
 
     Rational operator*(const Rational &lhs, const Rational &rhs)
     {
+        Rational lhsTemp;
+        Rational rhsTemp;
+        if(lhs.whole != ZERO) {
+            //printf("1:  \n");  // Debugging
+            Integer temp = (lhs.whole * lhs.den) + lhs.num;
+            lhsTemp.num = temp;
+            lhsTemp.den = lhs.den;
+            lhsTemp.whole = Integer("0");
+        } else {
+            //printf("2:  \n");  // Debugging
+            lhsTemp = lhs;
+        }
+        if (rhs.whole != ZERO) {
+            //printf("3:  \n");  // Debugging
+            Integer temp = (rhs.whole * rhs.den) + rhs.num;
+            rhsTemp.num = temp;
+            rhsTemp.den = rhs.den;
+            rhsTemp.whole = Integer("0");
+            
+        } else {
+            //printf("4:  \n");  // Debugging
+            rhsTemp = rhs;
+        }
         Rational temp;
-        temp.num = lhs.num * rhs.num;
-        temp.den = lhs.den * rhs.den;
+        temp.num = lhsTemp.num * rhsTemp.num;
+        temp.den = lhsTemp.den * rhsTemp.den;
         return temp.simplify();
     }
 
     Rational operator/(const Rational &lhs, const Rational &rhs)
     {
+        Rational lhsTemp;
+        Rational rhsTemp;
+        if(lhs.whole != ZERO) {
+            //printf("1:  \n");  // Debugging
+            Integer temp = (lhs.whole * lhs.den) + lhs.num;
+            lhsTemp.num = temp;
+            lhsTemp.den = lhs.den;
+            lhsTemp.whole = Integer("0");
+        } else {
+            //printf("2:  \n");  // Debugging
+            lhsTemp = lhs;
+        }
+        if (rhs.whole != ZERO) {
+            //printf("3:  \n");  // Debugging
+            Integer temp = (rhs.whole * rhs.den) + rhs.num;
+            rhsTemp.num = temp;
+            rhsTemp.den = rhs.den;
+            rhsTemp.whole = Integer("0");
+            
+        } else {
+            //printf("4:  \n");  // Debugging
+            rhsTemp = rhs;
+        }
         Rational temp;
-        if (!lhs.num.isPositive() && !rhs.num.isPositive())
+        if (!lhsTemp.num.isPositive() && !rhs.num.isPositive())
         {
-            Integer lhsNum = lhs.num.absValue();
-            Integer rhsNum = rhs.num.absValue();
-            temp.num = lhsNum * rhs.den;
-            temp.den = lhs.den * rhsNum;
+            Integer lhsNum = lhsTemp.num.absValue();
+            Integer rhsNum = rhsTemp.num.absValue();
+            temp.num = lhsNum * rhsTemp.den;
+            temp.den = lhsTemp.den * rhsNum;
             return temp.simplify();
         }
         else
         {
-            temp.num = lhs.num * rhs.den;
-            temp.den = lhs.den * rhs.num;
+            temp.num = lhsTemp.num * rhsTemp.den;
+            temp.den = lhsTemp.den * rhsTemp.num;
             return temp.simplify();
         }
     }
