@@ -29,9 +29,11 @@ namespace cosc326
     //Destructor
     Integer::~Integer(){}
 
-    std::string Integer::repr() const
+    // Assignment Operator
+    Integer& Integer::operator=(const Integer& i)
     {
-        return value;
+        this->value = i.value;
+        return *this;
     }
 
     Integer operator/(const Integer &lhs, const Integer &rhs)
@@ -324,11 +326,7 @@ namespace cosc326
         return gcd(b1, remainder);
     }
 
-    Integer &Integer::operator=(const Integer &i)
-    {
-        this->setValue(i.toString());
-        return *this;
-    }
+    
 
     Integer &Integer::operator/=(const Integer &i)
     {
@@ -551,18 +549,18 @@ namespace cosc326
         return str;
     }
 
-    std::ostream &operator<<(std::ostream &os, const Integer &i)
+    std::ostream& operator<<(std::ostream& os, const Integer& i)
     {
         os << i.toString() << std::endl;
         return os;
     }
 
-    std::istream &operator>>(std::istream &input, Integer &b)
+    std::istream& operator>>(std::istream& is, Integer& i)
     {
         std::string val;
-        input >> val;
-        b.setValue(val);
-        return input;
+        is >> val;
+        i.setValue(val);
+        return is;
     }
 
 

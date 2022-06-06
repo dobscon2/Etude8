@@ -58,8 +58,6 @@ namespace cosc326 {
 
         Integer absValue() const;
       
-        std::string repr() const;
-
     private:
 
         std::string value = "0";
