@@ -55,7 +55,6 @@ namespace cosc326
 
     Rational::Rational(const Integer& a, const Integer& b, const Integer& c)
     {
-        //Rational g = convertToImproper(a, b, c);
         this->den = c;
         this->num = b;
         this->whole = a;
@@ -132,8 +131,13 @@ namespace cosc326
         Rational temp;
         Integer tempNum = ((lhs.num * rhs.den) + (rhs.num * lhs.den));
         Integer tempDen = rhs.den * lhs.den;
+        Integer tempWhole;
+        if (lhs.den == rhs.den){
+            tempWhole = lhs.whole + rhs.whole;
+        } 
         temp.num = tempNum;
         temp.den = tempDen;
+        temp.whole = tempWhole;
         return temp.simplify();
     }
 
