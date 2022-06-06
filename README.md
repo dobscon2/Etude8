@@ -2,7 +2,7 @@
 
 ## To compile the program  
 To compile the program please run the following commands below, please note these are unix terminal commands  
-``` g++ -o <executable name> Integer.cpp <testfile.cpp> Rational.cpp ```
+``` g++ -o <executable name> Integer.cpp <testfile.cpp> Rational.cpp ```  
 The application would be compiled
 
 ## To run the program  
