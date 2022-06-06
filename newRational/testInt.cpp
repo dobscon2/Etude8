@@ -273,14 +273,4 @@ int main(void) {
     std::string divide_value = divide.toString();
     printf("Divide: %s\n", divide_value.c_str());
 
-    Integer test1 = Integer("100") / Integer("2");
-    Integer test2 = Integer("200") / Integer("2");
-    Integer test3 = Integer("201") / Integer("2");
-    Integer test4 = Integer("249") / Integer("2");
-
-    cout << test1 << "\n";
-    cout << test2 << "\n";
-    cout << test3 << "\n";
-    cout << test4 << "\n";
-    
 }

@@ -36,6 +36,16 @@ namespace cosc326
         return *this;
     }
 
+    // Negative Assignment
+    Integer Integer::operator-() const
+    {
+        if (isPositive())
+        {
+            return Integer("-" + value);
+        }
+        return Integer(absValue().toString());
+    }
+
     Integer operator/(const Integer &lhs, const Integer &rhs)
     {
         if (rhs != ZERO)
@@ -434,14 +444,7 @@ namespace cosc326
         return Integer(value);
     }
 
-    Integer Integer::operator-() const
-    {
-        if (isPositive())
-        {
-            return Integer("-" + value);
-        }
-        return Integer(absValue().toString());
-    }
+    
 
     bool Integer::isPositive() const
     {
