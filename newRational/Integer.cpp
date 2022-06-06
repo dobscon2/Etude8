@@ -1,5 +1,7 @@
 #include "Integer.h"
 
+// Need a ++ method and --
+
 namespace cosc326
 {
     // default constructor
