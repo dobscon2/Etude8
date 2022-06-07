@@ -2,13 +2,14 @@
 
 namespace cosc326
 {
-
+    // Default constructor
     Rational::Rational()
     {
         num = Integer();
         den = Integer("1");
     }
 
+    // String Constructor
     Rational::Rational(const std::string& str)
     {
         Integer whole = Integer();
@@ -31,6 +32,7 @@ namespace cosc326
 
     };
 
+    // Rational Constructor
     Rational::Rational(const Rational &r)
     {
         this->den = r.den;
@@ -38,6 +40,7 @@ namespace cosc326
         this->whole = r.whole;
     }
 
+    // Single Integer Constructor
     Rational::Rational(const Integer &a)
     {
         this->num = a;
@@ -45,6 +48,7 @@ namespace cosc326
         this->whole = Integer("0");
     }
 
+    // Two integers Constructor
     Rational::Rational(const Integer &a, const Integer &b)
     {
         this->num = a;
@@ -52,6 +56,8 @@ namespace cosc326
         this->whole = Integer("0");
     }
 
+
+    // Three Integer Constuctor - Third integer is the whole number
     Rational::Rational(const Integer& a, const Integer& b, const Integer& c)
     {
         this->den = c;
@@ -59,8 +65,10 @@ namespace cosc326
         this->whole = a;
     }
 
+    // Destructor
     Rational::~Rational() = default;
 
+    // Assignment Operator
     Rational &Rational::operator=(const Rational &r)
     {
 
@@ -69,6 +77,7 @@ namespace cosc326
         return *this;
     }
 
+    // Negative assignment Opereator
     Rational Rational::operator-() const
     {
         if (this->num.isPositive())
@@ -83,6 +92,7 @@ namespace cosc326
         }
     }
 
+    // Positive Assignment Operator
     Rational Rational::operator+() const
     {
         if (!this->num.isPositive())
@@ -97,6 +107,7 @@ namespace cosc326
         }
     }
 
+    // Addition assignment operator
     Rational &Rational::operator+=(const Rational &r)
     {
 
@@ -104,6 +115,7 @@ namespace cosc326
         return *this;
     }
 
+    // Substration assignment Operator
     Rational &Rational::operator-=(const Rational &r)
     {
 
@@ -111,6 +123,7 @@ namespace cosc326
         return *this;
     }
 
+    // Multiplacation assignment operator
     Rational &Rational::operator*=(const Rational &r)
     {
 
@@ -118,6 +131,7 @@ namespace cosc326
         return *this;
     }
 
+    // Division assignment operator
     Rational &Rational::operator/=(const Rational &r)
     {
 
@@ -125,9 +139,9 @@ namespace cosc326
         return *this;
     }
 
+    // Addition Operator
     Rational operator+(const Rational &lhs, const Rational &rhs)
     {
-        //printf("Executed   \n");
         Rational lhsTemp;
         Rational rhsTemp;
         Integer tempWhole;
@@ -136,8 +150,6 @@ namespace cosc326
         if(lhs.whole != ZERO) {
             tempWhole = lhs.whole;
             if (tempWhole.toString()[0] == '-') {
-                //negative = true;   
-                //printf("Executed   \n");
                 tempWhole = lhs.whole.absValue();
                 Integer result = ((tempWhole * lhs.den) + lhs.num);
                 std::string final = "-" + result.toString();
@@ -187,22 +199,21 @@ namespace cosc326
         temp.num = tempNum;
         temp.den = tempDen;
         temp.whole = tempWhole;
-        //printf("Executed simplify \n");
         //printf("Before simplify = %s / %s\n", temp.num.toString().c_str(), temp.den.toString().c_str());
         return temp.simplify();
     }
 
+
+    //Subtraction Operator
     Rational operator-(const Rational &lhs, const Rational &rhs)
     {
         Rational lhsTemp;
         Rational rhsTemp;
         Integer tempWhole;
         Integer intTemp;
-        //bool negative = false;
         if(lhs.whole != ZERO) {
             tempWhole = lhs.whole;
             if (tempWhole.toString()[0] == '-') {
-                //negative = true;   
                 //printf("Executed   \n");
                 tempWhole = lhs.whole.absValue();
                 Integer result = ((tempWhole * lhs.den) + lhs.num);
@@ -248,22 +259,20 @@ namespace cosc326
         temp.num = (lhsTemp.num * rhsTemp.den) - (rhsTemp.num * lhsTemp.den);
         temp.den = lhsTemp.den * rhsTemp.den;
         temp.whole = Integer("0");
-        //printf("Executed simplify \n");
-        //printf("Before simplify = %s / %s\n", temp.num.toString().c_str(), temp.den.toString().c_str());
         return temp.simplify();
     }
 
+
+    // Multiplacation operator
     Rational operator*(const Rational &lhs, const Rational &rhs)
     {
         Rational lhsTemp;
         Rational rhsTemp;
         Integer tempWhole;
         Integer intTemp;
-        //bool negative = false;
         if(lhs.whole != ZERO) {
             tempWhole = lhs.whole;
             if (tempWhole.toString()[0] == '-') {
-                //negative = true;   
                 //printf("Executed   \n");
                 tempWhole = lhs.whole.absValue();
                 Integer result = ((tempWhole * lhs.den) + lhs.num);
@@ -284,7 +293,6 @@ namespace cosc326
             //printf("3:  \n");  // Debugging
             tempWhole = rhs.whole;
             if (tempWhole.toString()[0] == '-')  {
-                //negative = true;   
                 tempWhole = rhs.whole.absValue();
                 Integer result = ((tempWhole * rhs.den) + rhs.num);
                 std::string final = "-" + result.toString();
@@ -292,14 +300,12 @@ namespace cosc326
             } else {
                 intTemp = (tempWhole * rhs.den) + rhs.num;
             }
-            ///printf("1:  \n");  // Debugging
             
             rhsTemp.num = intTemp;
             rhsTemp.den = rhs.den;
             rhsTemp.whole = Integer();
             
         } else {
-            //printf("4:  \n");  // Debugging
             rhsTemp = rhs;
         }
         Rational temp;
@@ -308,17 +314,16 @@ namespace cosc326
         return temp.simplify();
     }
 
+    // Division Operator
     Rational operator/(const Rational &lhs, const Rational &rhs)
     {
         Rational lhsTemp;
         Rational rhsTemp;
         Integer tempWhole;
         Integer intTemp;
-        //bool negative = false;
         if(lhs.whole != ZERO) {
             tempWhole = lhs.whole;
             if (tempWhole.toString()[0] == '-') {
-                //negative = true;   
                 //printf("Executed   \n");
                 tempWhole = lhs.whole.absValue();
                 Integer result = ((tempWhole * lhs.den) + lhs.num);
@@ -339,7 +344,6 @@ namespace cosc326
             //printf("3:  \n");  // Debugging
             tempWhole = rhs.whole;
             if (tempWhole.toString()[0] == '-')  {
-                //negative = true;   
                 tempWhole = rhs.whole.absValue();
                 Integer result = ((tempWhole * rhs.den) + rhs.num);
                 std::string final = "-" + result.toString();
@@ -347,14 +351,12 @@ namespace cosc326
             } else {
                 intTemp = (tempWhole * rhs.den) + rhs.num;
             }
-            ///printf("1:  \n");  // Debugging
             
             rhsTemp.num = intTemp;
             rhsTemp.den = rhs.den;
             rhsTemp.whole = Integer();
             
         } else {
-            //printf("4:  \n");  // Debugging
             rhsTemp = rhs;
         }
         //printf("lhs Not whole: %s/%s\n", lhsTemp.num.toString().c_str(), lhsTemp.den.toString().c_str());
@@ -366,30 +368,24 @@ namespace cosc326
             Integer rhsNum = rhsTemp.num.absValue();
             temp.num = lhsNum * rhsTemp.den;
             temp.den = lhsTemp.den * rhsNum;
-            //printf("4:  \n");  // Debugging
-
             return temp.simplify();
         }
         else
         {
             temp.num = lhsTemp.num * rhsTemp.den;
             temp.den = lhsTemp.den * rhsTemp.num;
-            //printf("5:  %s\n", temp.num.toString().c_str());  // Debugging
-            //printf("5:  %s\n", temp.den.toString().c_str());  // Debugging
-
             if (temp.den.toString()[0] == '-'){
                 temp.den = temp.den.absValue();
                 std::string final = "-" + temp.num.toString();
                 temp.num = Integer(final);
                 
             }
-            //printf("5:  %s\n", temp.num.toString().c_str());  // Debugging
-            //printf("5:  %s\n", temp.den.toString().c_str());  // Debugging
 
             return temp.simplify();
         }
     }
 
+    // Streaming Insertion operator
     std::ostream &operator<<(std::ostream &os, const Rational &i)
     {
         std::string s;
@@ -456,12 +452,14 @@ namespace cosc326
         return os;
     }
 
+    // Streaming extraction Operator
     std::istream &operator>>(std::istream &is, Rational &i)
     {
         is >> i.den >> i.num;
         return is;
     }
 
+    // Less than Comparison Operator
     bool operator<(const Rational &lhs, const Rational &rhs)
     {
         Integer temp1;
@@ -487,6 +485,7 @@ namespace cosc326
         }
     }
 
+    // Greater than comparison Operator
     bool operator>(const Rational &lhs, const Rational &rhs)
     {
         Integer temp1;
@@ -515,6 +514,7 @@ namespace cosc326
         }
     }
 
+    // Less Than Or Equal Too Comparison Operator
     bool operator<=(const Rational &lhs, const Rational &rhs)
     {
         if ((lhs < rhs) || (lhs == rhs))
@@ -527,6 +527,8 @@ namespace cosc326
         }
     }
 
+
+    // Greater Than Or Equal Too Comparison Operator
     bool operator>=(const Rational &lhs, const Rational &rhs)
     {
         if ((lhs > rhs) || (lhs == rhs))
@@ -539,6 +541,8 @@ namespace cosc326
         }
     }
 
+
+    // Equal too coparison operator
     bool operator==(const Rational &lhs, const Rational &rhs)
     {
         Rational lhsTemp;
@@ -565,8 +569,6 @@ namespace cosc326
             rhsTemp = rhs;
         }
         Rational temp = lhsTemp / rhsTemp;
-        //printf("Executed\n");
-        //Rational temp = lhs / rhs;
 
         if ((temp.num == ONE && temp.den == ONE))
         {
@@ -579,6 +581,8 @@ namespace cosc326
         return false;
     }
 
+
+    // Not Equal Too Comparison Operator
     bool operator!=(const Rational &lhs, const Rational &rhs)
     {
 
@@ -592,23 +596,26 @@ namespace cosc326
         }
     }
 
+
+    /**
+    * Simplyfy Method - Takes a rational and converts into its simplest form
+    * @returns temp - the simplified rational
+    */
     Rational Rational::simplify() const
     {
         Rational temp;
         Integer greatestCD;
         greatestCD = gcd(this->den, this->num);
-        //printf("GCD value = %s\n", greatestCD.toString().c_str());
-        //printf("num = %s\n", num.toString().c_str());
-        //printf("den = %s\n", den.toString().c_str());
         temp.den = den / greatestCD;
         temp.num = num / greatestCD;
-        //printf("num after divid of gcd = %s\n", temp.num.toString().c_str());
-        //printf("den after divid of gcd = %s\n", temp.den.toString().c_str());
-        //temp.whole = whole;
         return temp;
-        //return Rational();
     }
 
+    
+    /**
+    * Get Vaue Method - returns a rational with the values of this
+    * @returns temp - the rational
+    */
     Rational Rational::getValue() const
     {
         Rational temp;

@@ -158,7 +158,7 @@ int main(void) {
 
     cout << Rational("-11/5");
 
-/*
+
 
     //Comparisons
     if (Rational("3.1/4") > Rational("1/2")) {
@@ -282,5 +282,5 @@ int main(void) {
     } else {
         cout << "No - correct\n";
     }
-    */
+
 }
