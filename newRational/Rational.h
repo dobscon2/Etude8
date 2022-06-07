@@ -48,6 +48,8 @@ namespace cosc326 {
 
         std::string toString() const;
         Rational getValue() const;
+        static bool isStringPositive(std::string str);
+
 
     private:
         // Can add internal storage or methods here

@@ -130,10 +130,23 @@ namespace cosc326
         //printf("Executed   \n");
         Rational lhsTemp;
         Rational rhsTemp;
+        Integer tempWhole;
+        Integer intTemp;
+        //bool negative = false;
         if(lhs.whole != ZERO) {
-            ///printf("1:  \n");  // Debugging
-            Integer temp = (lhs.whole * lhs.den) + lhs.num;
-            lhsTemp.num = temp;
+            tempWhole = lhs.whole;
+            if (tempWhole.toString()[0] == '-') {
+                //negative = true;   
+                printf("Executed   \n");
+                tempWhole = lhs.whole.absValue();
+                Integer result = ((tempWhole * lhs.den) + lhs.num);
+                std::string final = "-" + result.toString();
+                intTemp = Integer(final);
+
+            } else {
+                intTemp = (tempWhole * lhs.den) + lhs.num;
+            }
+            lhsTemp.num = intTemp;
             lhsTemp.den = lhs.den;
             lhsTemp.whole = Integer("0");
         } else {
@@ -142,8 +155,19 @@ namespace cosc326
         }
         if (rhs.whole != ZERO) {
             //printf("3:  \n");  // Debugging
-            Integer temp = (rhs.whole * rhs.den) + rhs.num;
-            rhsTemp.num = temp;
+            tempWhole = rhs.whole;
+            if (tempWhole.toString()[0] == '-')  {
+                //negative = true;   
+                tempWhole = rhs.whole.absValue();
+                Integer result = ((tempWhole * rhs.den) + rhs.num);
+                std::string final = "-" + result.toString();
+                intTemp = Integer(final);
+            } else {
+                intTemp = (tempWhole * rhs.den) + rhs.num;
+            }
+            ///printf("1:  \n");  // Debugging
+            
+            rhsTemp.num = intTemp;
             rhsTemp.den = rhs.den;
             rhsTemp.whole = Integer();
             
@@ -151,12 +175,15 @@ namespace cosc326
             //printf("4:  \n");  // Debugging
             rhsTemp = rhs;
         }
+
+        printf("lhs Not whole: %s/%s\n", lhsTemp.num.toString().c_str(), lhsTemp.den.toString().c_str());
+        printf("rhs Not whole: %s/%s\n", rhsTemp.num.toString().c_str(), rhsTemp.den.toString().c_str());
         Rational temp;
         Integer tempNum = ((lhsTemp.num * rhsTemp.den) + (rhsTemp.num * lhsTemp.den));
         Integer tempDen = rhsTemp.den * lhsTemp.den;
-        Integer tempWhole;
         
         tempWhole = lhsTemp.whole + rhsTemp.whole;
+
         temp.num = tempNum;
         temp.den = tempDen;
         temp.whole = tempWhole;
@@ -506,21 +533,14 @@ namespace cosc326
         temp.whole = this->whole;
         return temp;
     }
-/*
-    Rational Rational::convertToImproper(Integer w, Integer n, Integer d)
+
+    bool Rational::isStringPositive(std::string str)
     {
-        if (w == Integer("0"))
+        if (!str.empty())
         {
-            return Rational(n, d);
+            return str[0] != '-';
         }
-        else
-        {
-            Rational temp;
-            temp.den = d;
-            Integer wholeSign = w.absValue();
-            temp.num = (w * d) + n;
-            return temp;
-        }
+        return false;
     }
-    */
+
 };

@@ -59,16 +59,18 @@ namespace cosc326 {
         Integer absValue() const;
 
         std::string removeLeadingZeros(std::string str);
+
+
       
     private:
 
         std::string value = "0";
 
         
+        static bool isStringPositive(std::string str);
 
         std::string removePositiveSign(std::string str);
 
-        static bool isStringPositive(std::string str);
 
         static bool isInteger(std::string str);
 
