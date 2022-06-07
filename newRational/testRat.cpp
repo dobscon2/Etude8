@@ -147,7 +147,7 @@ int main(void) {
     Rational divid5 = Rational("2.1/2") / Rational("1.1/2");
     cout << "Dividing 2.1/2 / 1.1/2 = " << divid5 << "\n";
 
-    Rational divid6 = Rational("2.3/4") / Rational("-1.1/4");
+    Rational divid6 = Rational("2.3/4") / Rational("-1.1/4"); // not working
     cout << "Dividing 2.3/4 / -1.1/4 = " << divid6 << "\n";
 
     Rational divid7 = Rational("-1.3/4") / Rational("1.1/4");
@@ -155,6 +155,8 @@ int main(void) {
 
     Rational divid8 = Rational("3.3/4") / Rational("1.1/2");
     cout << "Dividing 3.3/4 / 1.1/2 = " << divid8 << "\n";
+
+    cout << Rational("-11/5");
 
 /*
 
