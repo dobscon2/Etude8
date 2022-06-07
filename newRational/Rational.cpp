@@ -264,12 +264,17 @@ namespace cosc326
             Integer rhsNum = rhsTemp.num.absValue();
             temp.num = lhsNum * rhsTemp.den;
             temp.den = lhsTemp.den * rhsNum;
+            printf("4:  \n");  // Debugging
+
             return temp.simplify();
         }
         else
         {
             temp.num = lhsTemp.num * rhsTemp.den;
             temp.den = lhsTemp.den * rhsTemp.num;
+            printf("5:  %s\n", temp.num.toString().c_str());  // Debugging
+            printf("5:  %s\n", temp.den.toString().c_str());  // Debugging
+
             return temp.simplify();
         }
     }
@@ -348,8 +353,19 @@ namespace cosc326
 
     bool operator<(const Rational &lhs, const Rational &rhs)
     {
-        Integer temp1 = lhs.whole + (lhs.num * rhs.den);
-        Integer temp2 = rhs.whole + (lhs.den * rhs.num);
+        Integer temp1;
+        Integer temp2;
+        if (lhs.whole == rhs.whole){
+            temp1 = (lhs.num * rhs.den);
+            printf("< temp1 %s\n", temp1.toString().c_str());
+            
+            temp2 = (lhs.den * rhs.num);
+            printf("< temp2 %s\n", temp2.toString().c_str());
+
+        } else {
+            temp1 = lhs.whole;
+            temp2 = rhs.whole;
+        }
         if (temp1 < temp2)
         {
             return true;
@@ -362,9 +378,22 @@ namespace cosc326
 
     bool operator>(const Rational &lhs, const Rational &rhs)
     {
+        Integer temp1;
+        Integer temp2;
+        if (lhs.whole == rhs.whole){
+            temp1 = (lhs.num * rhs.den);
+            printf("> temp1 %s\n", temp1.toString().c_str());
+            temp2 = (lhs.den * rhs.num);
+            printf("> temp2 %s\n", temp2.toString().c_str());
 
-        Integer temp1 = lhs.whole + (lhs.num * rhs.den);
-        Integer temp2 = rhs.whole + (lhs.den * rhs.num);
+        } else {
+            temp1 = lhs.whole;
+            printf("> whole temp1 %s\n", temp1.toString().c_str());
+            temp2 = rhs.whole;
+            printf("> whole temp2 %s\n", temp2.toString().c_str());
+        }
+
+        
         if (temp1 > temp2)
         {
             return true;
@@ -377,7 +406,6 @@ namespace cosc326
 
     bool operator<=(const Rational &lhs, const Rational &rhs)
     {
-
         if ((lhs < rhs) || (lhs == rhs))
         {
             return true;
@@ -390,7 +418,6 @@ namespace cosc326
 
     bool operator>=(const Rational &lhs, const Rational &rhs)
     {
-
         if ((lhs > rhs) || (lhs == rhs))
         {
             return true;
@@ -403,8 +430,33 @@ namespace cosc326
 
     bool operator==(const Rational &lhs, const Rational &rhs)
     {
-        Rational temp = lhs / rhs;
+        Rational lhsTemp;
+        Rational rhsTemp;
+        if(lhs.whole != ZERO) {
+            //printf("1:  \n");  // Debugging
+            Integer temp = (lhs.whole * lhs.den) + lhs.num;
+            lhsTemp.num = temp;
+            lhsTemp.den = lhs.den;
+            lhsTemp.whole = Integer("0");
+        } else {
+            //printf("2:  \n");  // Debugging
+            lhsTemp = lhs;
+        }
+        if (rhs.whole != ZERO) {
+            //printf("3:  \n");  // Debugging
+            Integer temp = (rhs.whole * rhs.den) + rhs.num;
+            rhsTemp.num = temp;
+            rhsTemp.den = rhs.den;
+            rhsTemp.whole = Integer("0");
+            
+        } else {
+            //printf("4:  \n");  // Debugging
+            rhsTemp = rhs;
+        }
+        Rational temp = lhsTemp / rhsTemp;
         printf("Executed\n");
+        //Rational temp = lhs / rhs;
+
         if ((temp.num.absValue() == ONE && temp.den.absValue() == ONE))
         {
             return true;

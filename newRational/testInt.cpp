@@ -291,6 +291,8 @@ int main(void) {
     Integer divide4 = Integer("0") / Integer("2");
     printf("Divide2 = %s\n", divide4.toString().c_str());
 
+    Integer divide5 = Integer("11") / Integer("11");
+    printf("Divide2 = %s\n", divide5.toString().c_str());
     Integer divide5 = Integer("100") / Integer("100");
     printf("Divide3 = %s\n", divide5.toString().c_str());
 

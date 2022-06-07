@@ -156,36 +156,128 @@ int main(void) {
     Rational divid8 = Rational("3.3/4") / Rational("1.1/2");
     cout << "Dividing 3.3/4 / 1.1/2 = " << divid8 << "\n";
 
-    Rational compare1 = Rational("3.1/4");
-    Rational compare2 = Rational("1/2");
 
-    if (compare1 > compare2) {
-        cout << "True\n";
+
+    //Comparisons
+    if (Rational("3.1/4") > Rational("1/2")) {
+        cout << "True - correct\n";
     } else {
-        cout << "False\n";
+        cout << "False - in\n";
     }
 
-    if (compare1 == compare2) {
-        cout << "Incorrect\n";
+    cout << "if (Rational(1/2) < Rational(1/2)){\n";
+    if (Rational("1/2") < Rational("1/2")){
+        cout << "True - incorrect\n";
     } else {
-        cout << "True\n";
+        cout << "False - correct\n";
+    }
+
+    cout << "if (Rational(1/2) > Rational(1/2)){\n";
+    if (Rational("1/2") > Rational("1/2")){
+        cout << "True - incorrect\n";
+    } else {
+        cout << "False - correct\n";
+    }
+
+    cout << "if (Rational(3/4) > Rational(1/2)){\n";
+    if (Rational("3/4") > Rational("1/2")){
+        cout << "True - correct\n";
+    } else {
+        cout << "False - incorrect\n";
+    }
+
+    cout << "if (Rational(2.1/2) > Rational(1.1/2)){\n";
+    if (Rational("2.1/2") > Rational("1.1/2")){
+        cout << "True - correct\n";
+    } else {
+        cout << "False - incorrect\n";
+    }
+
+    cout << "if (Rational(\"2.1/2\") < Rational(\"1.3/4\")){\n";  // Is not working
+    if (Rational("2.1/2") < Rational("1.3/4")){
+        cout << "True - incorrect\n";
+    } else {
+        cout << "False - correct\n";
+    }
+
+    
+
+
+    // Testing <= && >=
+    cout << "if (Rational(1/2) <= Rational(1/2)){\n";
+    if (Rational("1/2") <= Rational("1/2")){
+        cout << "True - correct\n";
+    } else {
+        cout << "False - incorrect\n";
+    }
+
+    cout << "if (Rational(\"1/2\") <= Rational(\"3/4\")){\n";
+    if (Rational("1/2") <= Rational("3/4")){
+        cout << "True - correct\n";
+    } else {
+        cout << "False - incorrect\n";
+    }
+
+    cout << "if (Rational(\"2.1/2\") <= Rational(\"1.3/4\")){\n";  // Is not working
+    if (Rational("2.1/2") <= Rational("1.3/4")){
+        cout << "True - incorrect\n";
+    } else {
+        cout << "False - correct\n";
+    }
+
+    cout << "if (Rational(\"2.1/2\") <= Rational(\"2.3/4\")){\n";
+    if (Rational("2.1/2") <= Rational("2.3/4")){
+        cout << "True - correct\n";
+    } else {
+        cout << "False - incorrect\n";
+    }
+
+    cout << "if (Rational(\"2.1/2\") <= Rational(\"5/2\")){\n";
+    if (Rational("2.1/2") <= Rational("5/2")){
+        cout << "True - correct\n";
+    } else {
+        cout << "False - incorrect\n";
+    }
+
+
+    cout << "if (Rational(3.1/4) == Rational(1/2)) {\n";
+    if (Rational("3.1/4") == Rational("1/2")) {
+        cout << "Incorrect - incorrect\n";
+    } else {
+        cout << "True - correct\n";
     }
 
     Rational compare3 = Rational("1/4");
 
-    if (compare3 < compare1) {
-        cout << "1\n";
+    cout << "if (Rational(1/4) < Rational(3.1/4)) {\n";
+    if (Rational("1/4") < Rational("3.1/4")) {
+        cout << "1 - correct\n";
     } else {
-        cout << "0\n";
+        cout << "0 - incorrect\n";
     }
 
-    Rational divide = compare3 / compare2;
+    Rational divide = Rational("1/4") / Rational("1/2");
 
     cout << "Divide: " << divide << "\n";
 
-    if (compare2 == compare3) {
-        cout << "Yes\n";
+    cout << "if (Rational(1/2) == Rational(1/4)) {\n";
+    if (Rational("1/2") == Rational("1/4")) {
+        cout << "Yes - incorrect\n";
     } else {
-        cout << "No\n";
+        cout << "No - correct\n";
+    }
+
+    cout << "if (Rational(1/2) == Rational(50/100)) {\n";
+    if (Rational("1/2") == Rational("50/100")) {
+        cout << "Yes - correct\n";
+    } else {
+        cout << "No - incorrect\n";
+    }
+
+    cout << "if (Rational(-1/2) == Rational(50/100)) {\n";
+    if (Rational("-1/2") == Rational("50/100")) {
+        cout << "Yes - incorrect\n";
+    } else {
+        cout << "No - correct\n";
     }
 }
