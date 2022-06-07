@@ -1,3 +1,12 @@
+/**
+ * @file Rational.cpp
+ * @author Connor Dobson & van Lith
+ * @brief The Rational class uses the previous Integer class and is able to work with fractions and mixed numbers in C++
+ * @version 0.1
+ * @date 2022-06-07
+ * 
+ */
+
 #include "Rational.h"
 
 namespace cosc326
