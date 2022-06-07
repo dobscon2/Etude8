@@ -72,7 +72,7 @@ namespace cosc326
 
     Integer *Integer::divide(const Integer &lhs, const Integer &rhs)
     {
-        if (rhs != ZERO)
+        if (rhs != ZERO || lhs != ZERO)
         {
             Integer lhsTemp = lhs;
             Integer rhsTemp = Integer(rhs.absValue());
@@ -93,6 +93,10 @@ namespace cosc326
                 result = result + Integer("1");
                 if (remainder.value == "01") {
                     remainder = Integer("1");
+                    break;
+                } else if (remainder == rhs) {
+                    remainder = Integer("0");
+                    result = result + Integer("1");
                     break;
                 }
             }
@@ -435,7 +439,6 @@ namespace cosc326
     {
         if (isInteger(val) == true)
         {
-            //printf("HI\n"); //debugging
             val = removePositiveSign(val);
             val = removeLeadingZeros(val);
             if (strAbsValue(val) == "0")
@@ -446,7 +449,6 @@ namespace cosc326
         }
         else
         {
-            //printf("ye\n"); //debugging
             return NULL;
         }
     }
@@ -494,20 +496,16 @@ namespace cosc326
 
     std::string Integer::removeLeadingZeros(std::string str)
     {
-        //printf("Lenght: %d \n", str.length()); //debugging
 
         if (Integer::isStringPositive(str) && str != "0")
         {
-            //printf("HI2\n"); //debugging
             int current = 0;
             int length = str.length();
             while (current < length)
             {
-            //printf("HI3\n"); //debugging
 
                 if (str.at(current) == '0')
                 {
-            //printf("HI4\n"); //debugging
                     current++;
                 }
                 else
@@ -520,7 +518,6 @@ namespace cosc326
         }
         else
         {
-            //printf("BYE2\n"); //debugging
 
             return str;
         }
@@ -556,8 +553,6 @@ namespace cosc326
         return is;
     }
 
-
-    // To String Method
     std::string Integer::toString() const
     {
         return value;
