@@ -11,8 +11,8 @@ To run the program please run the following command
 **It is best to run this in a C++11 compiler**
 
 ## Testing our code  
-We have been testing our code by building our own test.cpp file and just testing the functions and operations and comparing them to our operating systems built in calculator  
+We have been testing our code by building our own test files (testInt.cpp & testRat.cpp) and just testing the functions and operations and comparing them to our operating systems built in calculator  
 
 ## Development Environment  
 Connor's development environment - Windows 11 using Visual Code Studio, running the application in the Windows Subsystem for Linux running Ubuntu 20.04.4 TLS provided by the Microsoft Store.  
-Ariana's development environment - MacOS using Visual Code Studio
+Ariana's development environment - MacOS & Fedora Linux using Visual Code Studio
