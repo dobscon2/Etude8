@@ -302,7 +302,10 @@ int main(void) {
         printf("Smart\n");
     }
 
-    Integer divide6 = Integer("-100") / Integer("100");
+    Integer divide6 = Integer("44") / Integer("4");
     printf("divide6 = %s\n", divide6.toString().c_str());
+
+    Integer divide7 = Integer("-20") / Integer("4");
+    printf("divide7 = %s\n", divide7.toString().c_str());
 
 }

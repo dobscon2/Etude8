@@ -72,7 +72,7 @@ namespace cosc326
 
     Integer *Integer::divide(const Integer &lhs, const Integer &rhs)
     {
-        if (rhs != ZERO)
+        if (rhs != ZERO  && lhs != ZERO)
         {
             Integer lhsTemp = lhs;
             Integer rhsTemp = Integer(rhs.absValue());
@@ -94,6 +94,10 @@ namespace cosc326
                 if (remainder.value == "01") {
                     remainder = Integer("1");
                     break;
+                } else if (remainder == rhs){
+                    result_values[0] = result + Integer("1");
+                    result_values[1] = remainder;
+                    return result_values;
                 }
             }
             result_values[0] = result;
