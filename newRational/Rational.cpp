@@ -457,7 +457,7 @@ namespace cosc326
         printf("Executed\n");
         //Rational temp = lhs / rhs;
 
-        if ((temp.num.absValue() == ONE && temp.den.absValue() == ONE))
+        if ((temp.num == ONE && temp.den == ONE))
         {
             return true;
         }
