@@ -156,43 +156,48 @@ int main(void) {
     Rational divid8 = Rational("3.3/4") / Rational("1.1/2");
     cout << "Dividing 3.3/4 / 1.1/2 = " << divid8 << "\n";
 
-    Rational compare1 = Rational("3.1/4");
-    Rational compare2 = Rational("1/2");
 
 
     //Comparisons
-    if (compare1 > compare2) {
-        cout << "True\n";
+    if (Rational("3.1/4") > Rational("1/2")) {
+        cout << "True - correct\n";
     } else {
-        cout << "False\n";
+        cout << "False - in\n";
     }
 
-    cout << "if (Rational(1/2) < Rational(1/2)){";
+    cout << "if (Rational(1/2) < Rational(1/2)){\n";
     if (Rational("1/2") < Rational("1/2")){
         cout << "True - incorrect\n";
     } else {
         cout << "False - correct\n";
     }
 
-    cout << "if (Rational(1/2) > Rational(1/2)){";
+    cout << "if (Rational(1/2) > Rational(1/2)){\n";
     if (Rational("1/2") > Rational("1/2")){
         cout << "True - incorrect\n";
     } else {
         cout << "False - correct\n";
     }
 
-    cout << "if (Rational(3/4) > Rational(1/2)){";
+    cout << "if (Rational(3/4) > Rational(1/2)){\n";
     if (Rational("3/4") > Rational("1/2")){
         cout << "True - correct\n";
     } else {
         cout << "False - incorrect\n";
     }
 
-    cout << "if (Rational(2.1/2) > Rational(1.1/2)){";
+    cout << "if (Rational(2.1/2) > Rational(1.1/2)){\n";
     if (Rational("2.1/2") > Rational("1.1/2")){
         cout << "True - correct\n";
     } else {
         cout << "False - incorrect\n";
+    }
+
+    cout << "if (Rational(\"2.1/2\") < Rational(\"1.3/4\")){\n";  // Is not working
+    if (Rational("2.1/2") < Rational("1.3/4")){
+        cout << "True - incorrect\n";
+    } else {
+        cout << "False - correct\n";
     }
 
     
@@ -221,14 +226,14 @@ int main(void) {
     }
 
     cout << "if (Rational(\"2.1/2\") <= Rational(\"2.3/4\")){\n";
-    if (Rational("2.1/2") <= Rational("1.3/4")){
+    if (Rational("2.1/2") <= Rational("2.3/4")){
         cout << "True - correct\n";
     } else {
         cout << "False - incorrect\n";
     }
 
     cout << "if (Rational(\"2.1/2\") <= Rational(\"5/2\")){\n";
-    if (Rational("2.1/2") <= Rational("1.3/4")){
+    if (Rational("2.1/2") <= Rational("5/2")){
         cout << "True - correct\n";
     } else {
         cout << "False - incorrect\n";
@@ -267,5 +272,12 @@ int main(void) {
         cout << "Yes - correct\n";
     } else {
         cout << "No - incorrect\n";
+    }
+
+    cout << "if (Rational(-1/2) == Rational(50/100)) {\n";
+    if (Rational("-1/2") == Rational("50/100")) {
+        cout << "Yes - incorrect\n";
+    } else {
+        cout << "No - correct\n";
     }
 }

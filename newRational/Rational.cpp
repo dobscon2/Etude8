@@ -353,8 +353,19 @@ namespace cosc326
 
     bool operator<(const Rational &lhs, const Rational &rhs)
     {
-        Integer temp1 = lhs.whole + (lhs.num * rhs.den);
-        Integer temp2 = rhs.whole + (lhs.den * rhs.num);
+        Integer temp1;
+        Integer temp2;
+        if (lhs.whole == rhs.whole){
+            temp1 = (lhs.num * rhs.den);
+            printf("< temp1 %s\n", temp1.toString().c_str());
+            
+            temp2 = (lhs.den * rhs.num);
+            printf("< temp2 %s\n", temp2.toString().c_str());
+
+        } else {
+            temp1 = lhs.whole;
+            temp2 = rhs.whole;
+        }
         if (temp1 < temp2)
         {
             return true;
@@ -367,9 +378,22 @@ namespace cosc326
 
     bool operator>(const Rational &lhs, const Rational &rhs)
     {
+        Integer temp1;
+        Integer temp2;
+        if (lhs.whole == rhs.whole){
+            temp1 = (lhs.num * rhs.den);
+            printf("> temp1 %s\n", temp1.toString().c_str());
+            temp2 = (lhs.den * rhs.num);
+            printf("> temp2 %s\n", temp2.toString().c_str());
 
-        Integer temp1 = lhs.whole + (lhs.num * rhs.den);
-        Integer temp2 = rhs.whole + (lhs.den * rhs.num);
+        } else {
+            temp1 = lhs.whole;
+            printf("> whole temp1 %s\n", temp1.toString().c_str());
+            temp2 = rhs.whole;
+            printf("> whole temp2 %s\n", temp2.toString().c_str());
+        }
+
+        
         if (temp1 > temp2)
         {
             return true;
@@ -382,11 +406,7 @@ namespace cosc326
 
     bool operator<=(const Rational &lhs, const Rational &rhs)
     {
-        Integer temp1 = lhs.whole + (lhs.num * rhs.den);
-        Integer temp2 = rhs.whole + (lhs.den * rhs.num);
-        printf("<= temp1: %s\n", temp1.toString().c_str());
-        printf("<= temp2: %s\n", temp2.toString().c_str());
-        if (!(temp1 > temp2))
+        if ((lhs < rhs) || (lhs == rhs))
         {
             return true;
         }
@@ -398,9 +418,7 @@ namespace cosc326
 
     bool operator>=(const Rational &lhs, const Rational &rhs)
     {
-        Integer temp1 = lhs.whole + (lhs.num * rhs.den);
-        Integer temp2 = rhs.whole + (lhs.den * rhs.num);
-        if (!(temp1 < temp2))
+        if ((lhs > rhs) || (lhs == rhs))
         {
             return true;
         }
@@ -468,7 +486,7 @@ namespace cosc326
         Rational temp;
         Integer greatestCD;
         greatestCD = gcd(this->den, this->num);
-        printf("GCD value = %s\n", greatestCD.toString().c_str());
+        //printf("GCD value = %s\n", greatestCD.toString().c_str());
         //printf("num = %s\n", num.toString().c_str());
         //printf("den = %s\n", den.toString().c_str());
         temp.den = den / greatestCD;
