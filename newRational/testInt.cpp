@@ -294,4 +294,10 @@ int main(void) {
     Integer divide5 = Integer("100") / Integer("100");
     printf("Divide3 = %s\n", divide5.toString().c_str());
 
+    if (Integer("-100") > Integer("100")) {
+        printf("Stupid\n");
+    } else {
+        printf("Smart\n");
+    }
+
 }
