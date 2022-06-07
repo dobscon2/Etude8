@@ -80,6 +80,12 @@ namespace cosc326
             Integer remainder = Integer("0");
             Integer result = Integer("0");
 
+            if (lhs == rhs) {
+                result_values[0] = Integer("1");
+                result_values[1] = Integer("0");
+                return result_values;
+            }
+
             remainder = lhs - rhs;
             result = Integer("1");
             while (remainder >= rhsTemp) {
